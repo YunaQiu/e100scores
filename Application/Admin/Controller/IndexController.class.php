@@ -15,12 +15,12 @@ class IndexController extends Controller
 			session('admin',I('post.username','','htmlspecialchars'));
 			session('adminpass',I('post.password','','htmlspecialchars'));
 			if(check_admin_login()){
-				$this->success('登陆成功','logout',3);
+				$this->success('登陆成功',U('QuestionBank/index'),3);
 			}else{
 				$this->error('登陆失败');
 			}
 		}else if(check_admin_login()){
-			$this->success('登陆成功','logout',3);
+			$this->success('登陆成功',U('QuestionBank/index'),3);
 		}else{
 			session('[destroy]');
 			$this->display();
@@ -29,6 +29,6 @@ class IndexController extends Controller
 
 	public function logout(){
 		session('[destroy]');
-		$this->success('注销成功','index',3);
+		$this->success('注销成功',U('Index/index'),3);
 	}
 }

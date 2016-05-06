@@ -1,0 +1,91 @@
+@charset "utf-8";
+html,body{
+	margin: 0px;
+	padding: 0px;
+	height: 95%;
+}
+/* CSS Document */
+.header{
+	width: 80%;
+	height: 60px;
+	margin: 20px auto 0px auto;
+	border-bottom: 1px solid #DDDDDD;
+}
+.main{
+	width:80%;
+	min-height: 500px;
+	position:relative;
+	display:block;
+	margin: auto auto;
+}
+.clear-box{
+	/*用clearfix代替*/
+	overflow:hidden;
+}
+.title{
+	font-size:18px;
+	font-style:italic;
+	font-weight:700;
+	color:black;	
+}
+.main-body-left,.main-body-right{
+	display:inline-block;
+	position:relative;
+}
+.main-body-left{
+	width:65%;
+	float:left;
+	left:5%;
+}
+.main-body-right{
+	width:20%;
+	float:right;
+	right:5%;	
+}
+iframe{
+	width:100%;
+	height:100%;	
+}
+caption{
+	font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+	font-size:30px;	
+}
+.choose{
+	width:60%;
+}
+.important{
+	color:red; 
+	font-size:18px;
+}
+.icon_img{
+	width:130px;
+	height:250px;
+	float:right;
+}
+.footer{
+	position: relative;
+	width: 80%;
+	margin: 10px auto 0px auto;
+	border-top: 1px solid #CCCCCC;
+	text-align: center;
+	padding-top: 10px;
+	color: #666666;
+}
+.pass{
+	color:green;
+	font-size: 1.2em;
+}
+.fail{
+	color:red;
+	font-size: 1.2em;
+}
+#progress{
+	background-color: orange;
+	height:4px;
+	line-height: 4px;
+	width:0;
+}
+#upload-box{
+	border:1px solid #F0F0EE;
+	padding: 10px;
+}
