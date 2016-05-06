@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>易百分后台管理系统</title>
+<link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+<link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style>
+	.login-box{
+        width: 30%;
+		margin-left:auto;
+        margin-right: auto;
+	}
+	.button{
+		margin-top:5px;
+	}
+</style>
+</head>
+
+<body>
+	<div style="margin-top: 200px;">
+        <div class="login-box">
+            <form action="" name="login" method="post";>
+            <fieldset>
+            <legend>
+                <span><img src="__IMG__/logo2.gif" alt="易百分"/></span>
+                <span style="font-size:25px;font-weight:500;float:right;">易百分后台管理系统</span>
+            </legend>
+                <div class="form-group-lg">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
+                </div>
+                <div class="form-group-lg">
+            		<label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+            	</div>
+                <div class="form-group-lg button">
+                	<div>
+                    	<button type="submit" class="btn btn-success btn-block btn-lg">登陆</button>
+                    </div>
+                </div>
+            </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
