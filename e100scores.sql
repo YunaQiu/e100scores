@@ -29,7 +29,9 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `course` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -60,11 +62,13 @@ CREATE TABLE IF NOT EXISTS `question_bank` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `course_id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `publish` tinyint(1) NOT NULL,
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `course_id` (`course_id`),
-  KEY `course_id_2` (`course_id`)
+  KEY `course_id_2` (`course_id`),
+  KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

@@ -1,0 +1,117 @@
+<extend name="Public:base" />
+<block name="title">{$title}</block>
+<block name="othercss">
+    <style>
+    #info{
+        height: 30px;
+        margin-top: 5px;
+        padding: 5px;
+        padding-left: 10px;
+    }
+    </style>
+</block>
+<block name="otherjs">
+    <script>
+        var editor;
+        $(function(){
+            $("#alias").blur(function(){
+                $('#alias')[0].setCustomValidity('');
+                if($('#alias')[0].checkValidity()){
+                    $.post('{$checkAliasUrl}', 
+                        {
+                            id:{$id},
+                            alias:$('#alias').val()
+                        },
+                        function(data){
+                            if(data == 'ok'){
+                                $("#info").html('该别名可以使用').removeClass('hidden alert-danger alert-success').addClass('alert-success'); 
+                            }else{
+                                $("#info").html('该别名已被使用！').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                                $("#alias")[0].setCustomValidity('该别名已被使用！');
+                            }
+                        });
+                }else{
+                    $("#info").html('请输入正确的别名').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                }
+            });
+            $('#editor').submit(function(e){
+                $.ajax({  
+                    type : "post",  
+                    url : "{$checkAliasUrl}",  
+                    data : {
+                        id:{$id},
+                        alias:$('#alias').val()
+                    }, 
+                    async : false,  
+                    success : function(data){  
+                        if(data != 'ok'){
+                            $("#info").html('该别名已被使用！').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                            $("#alias")[0].setCustomValidity('该别名已被使用！');
+                            e.preventDefault();
+                        }
+                    }  
+                }); 
+            });
+        });
+    </script>
+</block>
+<block name="body">
+    <h1>{$title} </h1>
+    <form id="editor" method="post" enctype="multipart/form-data" action="{:U('QuestionBank/save')}" name="editor">
+        <input type="hidden" name="type" value="{$type}" />
+        <div class="form-group">
+            <label for="name">
+                题库名称<span class="important">*</span>
+            </label>
+            <input type="text" id="title" name="title" class="form-control" required placeholder="请输入题库名称" value="{$name}"/>
+        </div>
+
+        <div class="form-group">
+            <label for="alias">
+                英文别名（不可重复）<span class="important">*</span>
+            </label>
+            <input type="text" id="alias" name="alias" class="form-control" required pattern="^[0-9a-zA-Z]+$" placeholder="请输入别名（支持英文数字下划线）" value="{$alias}"/>
+            <div id="info" class="alert hidden"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="course">
+            所属科目<span class="important">*</span>
+            </label>
+            <select class="form-control" name="course" id="course">
+                <volist name="course" id="opt">
+                    <eq name="key" value="0">
+                        <option value="{$opt['alias']}" selected>{$opt['name']}</option>
+                    <else/>
+                        <option value="{$opt['alias']}">{$opt['name']}</option>
+                    </eq>
+                </volist>
+            </select>
+        </div>
+
+        <div>
+            <label for="isPublish">现在发布<span class="important">*</span></label>
+            <div class="radio" id="isPublish">
+                <label class="radio-inline">
+                    <input type="radio" name="is_visible" value="1" {$isPublish['yes']} />是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_visible" value="0" {$isPublish['no']} />否
+                </label>
+            </div>
+        </div>
+
+        <div style="width:50%;">
+            <button role="button" class="btn btn-primary btn-lg btn-block" type="submit">提交</button>
+        </div>
+    </form>
+</block>
+<block name="menu">
+    <h3 role="">操作</h3>
+    <ul class="nav nav-pills nav-stacked">
+        <li role=""><a href="{:U('QuestionBank/index')}">返回题库列表</a></li>
+        <eq name="type" value="update">
+            <li role=""><a href="">编辑题目</a></li>
+        </eq>
+    </ul>
+</block>
