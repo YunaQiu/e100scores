@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `question_bank` (
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `publish` tinyint(1) NOT NULL,
-  `amount` int(11) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `course_id` (`course_id`),
   KEY `course_id_2` (`course_id`),
