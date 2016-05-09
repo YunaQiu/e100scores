@@ -17,7 +17,7 @@
             $("#alias").blur(function(){
                 $('#alias')[0].setCustomValidity('');
                 if($('#alias')[0].checkValidity()){
-                    $.post('{:U("QuestionBank/checkAlias")}', 
+                    $.post('{:U("Course/checkAlias")}', 
                         {
                             id:{$id|default=0},
                             alias:$('#alias').val()
@@ -37,7 +37,7 @@
             $('#editor').submit(function(e){
                 $.ajax({  
                     type : 'post',  
-                    url : '{:U("QuestionBank/checkAlias")}',  
+                    url : '{:U("Course/checkAlias")}',  
                     data : {
                         id:{$id|default=0},
                         alias:$('#alias').val()
@@ -57,56 +57,21 @@
 </block>
 <block name="body">
     <h1>{$title} </h1>
-    <form id="editor" method="post" enctype="multipart/form-data" action="{:U('QuestionBank/save')}" name="editor">
+    <form id="editor" method="post" enctype="multipart/form-data" action="{:U('Course/save')}" name="editor">
         <input type="hidden" name="id" value="{$id}" />
         <div class="form-group">
             <label for="name">
-                题库名称<span class="important">*</span>
+                科目名称<span class="important">*</span>
             </label>
-            <input type="text" id="name" name="name" class="form-control" required placeholder="请输入题库名称" value="{$name}"/>
+            <input type="text" id="name" name="name" class="form-control" required placeholder="请输入科目名称" value="{$name}"/>
         </div>
 
         <div class="form-group">
             <label for="alias">
                 英文别名（不可重复）<span class="important">*</span>
             </label>
-            <input type="text" id="alias" name="alias" class="form-control" required pattern="^[0-9a-zA-Z]+$" placeholder="请输入别名（支持英文数字下划线）" value="{$alias}"/>
+            <input type="text" id="alias" name="alias" class="form-control" required pattern="^[0-9a-zA-Z]+$" placeholder="请输入科目别名（支持英文数字下划线）" value="{$alias}"/>
             <div id="info" class="alert hidden"></div>
-        </div>
-
-        <div class="form-group">
-            <label for="course">
-            所属科目<span class="important">*</span>
-            </label>
-            <select class="form-control" name="course" id="course">
-                <volist name="course_list" id="course">
-                    <present name="course_alias">
-                        <eq name="key" value="$course_alias">
-                            <option value="{$key}" selected>{$course}</option>
-                        <else/>
-                            <option value="{$key}">{$course}</option>
-                        </eq>
-                    <else/>
-                        <eq name="i" value="0">
-                            <option value="{$key}" selected>{$course}</option>
-                        <else/>
-                            <option value="{$key}">{$course}</option>
-                        </eq>
-                    </present>
-                </volist>
-            </select>
-        </div>
-
-        <div>
-            <label for="isPublish">现在发布<span class="important">*</span></label>
-            <div class="radio" id="isPublish">
-                <label class="radio-inline">
-                    <input type="radio" name="is_visible" value="1" {$is_publish['yes']} />是
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="is_visible" value="0" {$is_publish['no']} />否
-                </label>
-            </div>
         </div>
 
         <div style="width:50%;">
@@ -118,8 +83,5 @@
     <h3 role="">操作</h3>
     <ul class="nav nav-pills nav-stacked">
         <li role=""><a href="{:U('QuestionBank/index')}">返回题库列表</a></li>
-        <present name="id">
-            <li role=""><a href="">编辑题目</a></li>
-        </present>
     </ul>
 </block>
