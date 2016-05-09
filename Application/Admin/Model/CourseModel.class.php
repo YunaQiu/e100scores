@@ -9,5 +9,11 @@ class CourseModel extends Model{
 		return $result;
 	}
 
+	//获取科目列表，以array(alias=>name)的形式返回
+	public function getCourseList(){
+		$Course = M('Course');
+		$courseList = $Course->getField('alias, name');
+		return $courseList;
+	}
 }
 ?>

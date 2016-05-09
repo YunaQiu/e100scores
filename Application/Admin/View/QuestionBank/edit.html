@@ -79,18 +79,18 @@
             所属科目<span class="important">*</span>
             </label>
             <select class="form-control" name="course" id="course">
-                <volist name="course_list" id="opt">
+                <volist name="course_list" id="course">
                     <present name="course_alias">
-                        <eq name="opt['alias']" value="$course_alias">
-                            <option value="{$opt['alias']}" selected>{$opt['name']}</option>
+                        <eq name="key" value="$course_alias">
+                            <option value="{$key}" selected>{$course}</option>
                         <else/>
-                            <option value="{$opt['alias']}">{$opt['name']}</option>
+                            <option value="{$key}">{$course}</option>
                         </eq>
                     <else/>
-                        <eq name="key" value="0">
-                            <option value="{$opt['alias']}" selected>{$opt['name']}</option>
+                        <eq name="i" value="0">
+                            <option value="{$key}" selected>{$course}</option>
                         <else/>
-                            <option value="{$opt['alias']}">{$opt['name']}</option>
+                            <option value="{$key}">{$course}</option>
                         </eq>
                     </present>
                 </volist>

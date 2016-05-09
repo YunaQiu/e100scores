@@ -20,10 +20,10 @@ class QuestionBankController extends AdminCommonController
 
 	//新建题库页
 	public function add(){
+		$Course = D('Course');
         $array['title'] = '新建题库';
-        // $array['id'] = 0;
         $array['is_publish'] = array('yes' => '','no' => 'checked');
-        $array['course_list'] = array(array('name'=>'马克思原理', 'alias'=>'mks'), array('name'=>'近代史理论', 'alias'=>'jds'), array('name'=>'贝瓦', 'alias'=>'cccc'));
+        $array['course_list'] = $Course->getCourseList(); 
         $this->assign($array);
         $this->display('QuestionBank/edit');
 	}
@@ -42,8 +42,9 @@ class QuestionBankController extends AdminCommonController
 			$this->error('找不到该题库');
 		}
 		//数据加工
+		$Course = D('Course');
         $data['title'] = '编辑题库';
-        $data['course_list'] = array(array('name'=>'近代史理论', 'alias'=>'jds'), array('name'=>'马克思原理', 'alias'=>'mks'), array('name'=>'贝瓦', 'alias'=>'cccc'));
+        $data['course_list'] = $Course->getCourseList(); 
         if($data['publish'] == 1){
  	    	$data['is_publish'] = array('yes' => 'checked','no' => '');
         }else{
