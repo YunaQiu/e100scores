@@ -15,7 +15,7 @@ class IndexController extends Controller
 			session('admin',I('post.username','','htmlspecialchars'));
 			session('adminpass',I('post.password','','htmlspecialchars'));
 			if(check_admin_login()){
-				$this->success('登陆成功',U('QuestionBank/index'),3);
+				$this->success('登陆成功',U('QuestionBank/index'));
 			}else{
 				$this->error('登陆失败');
 			}

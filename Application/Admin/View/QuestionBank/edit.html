@@ -79,12 +79,20 @@
             所属科目<span class="important">*</span>
             </label>
             <select class="form-control" name="course" id="course">
-                <volist name="course" id="opt">
-                    <eq name="key" value="0">
-                        <option value="{$opt['alias']}" selected>{$opt['name']}</option>
+                <volist name="course_list" id="opt">
+                    <present name="course_alias">
+                        <eq name="opt['alias']" value="$course_alias">
+                            <option value="{$opt['alias']}" selected>{$opt['name']}</option>
+                        <else/>
+                            <option value="{$opt['alias']}">{$opt['name']}</option>
+                        </eq>
                     <else/>
-                        <option value="{$opt['alias']}">{$opt['name']}</option>
-                    </eq>
+                        <eq name="key" value="0">
+                            <option value="{$opt['alias']}" selected>{$opt['name']}</option>
+                        <else/>
+                            <option value="{$opt['alias']}">{$opt['name']}</option>
+                        </eq>
+                    </present>
                 </volist>
             </select>
         </div>
@@ -93,10 +101,10 @@
             <label for="isPublish">现在发布<span class="important">*</span></label>
             <div class="radio" id="isPublish">
                 <label class="radio-inline">
-                    <input type="radio" name="is_visible" value="1" {$isPublish['yes']} />是
+                    <input type="radio" name="is_visible" value="1" {$is_publish['yes']} />是
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="is_visible" value="0" {$isPublish['no']} />否
+                    <input type="radio" name="is_visible" value="0" {$is_publish['no']} />否
                 </label>
             </div>
         </div>
@@ -110,7 +118,7 @@
     <h3 role="">操作</h3>
     <ul class="nav nav-pills nav-stacked">
         <li role=""><a href="{:U('QuestionBank/index')}">返回题库列表</a></li>
-        <present name="type">
+        <present name="id">
             <li role=""><a href="">编辑题目</a></li>
         </present>
     </ul>

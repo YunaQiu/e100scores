@@ -12,16 +12,33 @@ class QuestionBankModel extends Model{
 			array('amount', 'number', 'amount不是数字')
 		);
 
-	//返回题库列表，为空时返回null
-	public function getBankList($course = 'all'){
+	//返回指定科目的题库列表，为空时返回null
+	public function getBankList($course = NULL){
 		$QuestionBank = M('QuestionBank');
-		$QuestionBank->field('bank.*, course.name as course')->table('question_bank bank, course')->where('bank.course_id=course.id');
-		if ($course !== 'all'){
-			$QuestionBank->where('course.name="%s"', $course);
+		$QuestionBank->field('bank.*, course.name as course, course.alias as course_alias')->table('question_bank bank, course');
+		if ($course === NULL){
+			$QuestionBank->where('bank.course_id=course.id');
+		}else{
+			$QuestionBank->where('bank.course_id=course.id AND course.id="%d"', $course);
 		}
 		$list = $QuestionBank->select();
 		return $list;
 	}
+
+	//返回一条题库记录的详细信息，为空时返回NULL
+	public function getBankInfo($id){
+		$QuestionBank = M('QuestionBank');
+		$QuestionBank->field('bank.*, course.name as course, course.alias as course_alias')->table('question_bank bank, course')->where('bank.course_id=course.id AND bank.id="%s"', $id);
+		$list = $QuestionBank->find();
+		return $list;
+	}
+
+	//返回指定题库别名对应的题库id
+	public function getBankId($alias){
+		$QuestionBank = M('QuestionBank');
+		$id = $QuestionBank->where('alias="%s"', $alias)->getField('id');
+		return $id;
+	}	
 
 	//返回与指定题库重名的别名数量
 	public function countAlias($id, $alias){
