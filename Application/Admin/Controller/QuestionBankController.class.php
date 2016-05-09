@@ -97,13 +97,25 @@ class QuestionBankController extends AdminCommonController
 	public function checkAlias(){
 		$QuestionBank = D('QuestionBank');
 		$id = I('post.id', 0, '/^[0-9]+$/');
-		$Alias = I('post.alias', '', '/^[0-9a-zA-Z]+$/');
-		if($QuestionBank->countAlias($id, $Alias) == 0){
-			$data = 'ok';
+		$alias = I('post.alias', '', '/^[0-9a-zA-Z]+$/');
+		if($QuestionBank->countAlias($id, $alias) == 0){
+			$data = 'success';
 		}else{
 			$data = 'error';
 		}
 			$this->ajaxReturn($data);
+	}
+
+	// AJAX接口：切换发布状态
+	public function changePublish(){
+		$QuestionBank = D('QuestionBank');
+		$id = I('post.id', 0, '/^\d+$/');
+		$publish = I('post.publish', 0, '/^[01]$/');
+		if ($QuestionBank->setPublish($id, $publish)){
+			$this->ajaxReturn('success');
+		}else{
+			$this->ajaxReturn('error');
+		}
 	}
 }
 ?>

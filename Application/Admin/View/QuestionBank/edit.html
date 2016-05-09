@@ -44,7 +44,7 @@
                     }, 
                     async : false,  
                     success : function(data){  
-                        if(data != 'ok'){
+                        if(data != 'success'){
                             $("#info").html('该别名已被使用！').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
                             $("#alias")[0].setCustomValidity('该别名已被使用！');
                             e.preventDefault();

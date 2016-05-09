@@ -33,22 +33,6 @@ class QuestionBankModel extends Model{
 		return $list;
 	}
 
-	//返回指定题库别名对应的题库id
-	public function getBankId($alias){
-		$QuestionBank = M('QuestionBank');
-		$id = $QuestionBank->where('alias="%s"', $alias)->getField('id');
-		return $id;
-	}	
-
-	//返回与指定题库重名的别名数量
-	public function countAlias($id, $alias){
-		$QuestionBank = M('QuestionBank');
-		$map['id'] = array('neq', $id);
-		$map['alias'] = array('eq', $alias);
-		$total = $QuestionBank->where($map)->count();
-		return $total;
-	}
-
 	/**
 	 * 向数据表保存一条记录
 	 * @param data: 待保存的记录数组，键值包括: id(可选),course_id,name,alias,publish,amount(可选)
@@ -66,6 +50,33 @@ class QuestionBankModel extends Model{
 		}else{
 			return false;
 		}
+	}
+
+	//返回指定题库别名对应的题库id
+	public function getBankId($alias){
+		$QuestionBank = M('QuestionBank');
+		$id = $QuestionBank->where('alias="%s"', $alias)->getField('id');
+		return $id;
+	}	
+
+	//返回与指定题库重名的别名数量
+	public function countAlias($id, $alias){
+		$QuestionBank = M('QuestionBank');
+		$map['id'] = array('neq', $id);
+		$map['alias'] = array('eq', $alias);
+		$total = $QuestionBank->where($map)->count();
+		return $total;
+	}
+
+	//设置指定题库的发布状态
+	public function setPublish($id, $publish){
+		$QuestionBank = M('QuestionBank');
+		if ($publish != 0 && $publish != 1){
+			return false;
+		}
+		$QuestionBank->publish = $publish;
+		$result = $QuestionBank->field('publish')->where('id="%d"', $id)->save();
+		return $result;
 	}
 }
 ?>
