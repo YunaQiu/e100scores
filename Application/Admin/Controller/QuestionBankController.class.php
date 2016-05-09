@@ -93,6 +93,26 @@ class QuestionBankController extends AdminCommonController
 		}
 	}
 
+	// 删除题库
+	public function deleteBank(){
+		$QuestionBank = D('QuestionBank');
+		$alias = I('get.alias', false, '/^[0-9a-zA-Z]+$/');
+		if (!$alias){
+			$this->error('非法操作');
+			exit;
+		}
+		$id = $QuestionBank->getBankId($alias);
+		if ($id == NULL){
+			$this->error('题库不存在');
+		}
+		$result = $QuestionBank->deleteBank($id);
+		if ($result){
+			$this->success('操作成功', U('QuestionBank/index'));
+		}else{
+			$this->error('操作失败');
+		}
+	}
+
 	// AJAX接口：验证别名可用性
 	public function checkAlias(){
 		$QuestionBank = D('QuestionBank');
@@ -117,5 +137,6 @@ class QuestionBankController extends AdminCommonController
 			$this->ajaxReturn('error');
 		}
 	}
+
 }
 ?>

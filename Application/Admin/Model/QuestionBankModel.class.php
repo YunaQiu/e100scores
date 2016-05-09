@@ -52,7 +52,7 @@ class QuestionBankModel extends Model{
 		}
 	}
 
-	//返回指定题库别名对应的题库id
+	//返回指定题库别名对应的题库id，如找不到返回NULL
 	public function getBankId($alias){
 		$QuestionBank = M('QuestionBank');
 		$id = $QuestionBank->where('alias="%s"', $alias)->getField('id');
@@ -76,6 +76,16 @@ class QuestionBankModel extends Model{
 		}
 		$QuestionBank->publish = $publish;
 		$result = $QuestionBank->field('publish')->where('id="%d"', $id)->save();
+		return $result;
+	}
+
+	//删除指定的题库
+	public function deleteBank($id){
+		$QuestionBank = M('QuestionBank');
+		if (!is_numeric($id)){
+			return false;
+		}
+		$result = $QuestionBank->delete($id);
 		return $result;
 	}
 }
