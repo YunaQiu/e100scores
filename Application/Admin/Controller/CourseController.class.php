@@ -13,7 +13,7 @@ class CourseController extends AdminCommonController
 
 	//修改科目页
 	public function edit(){
-		$alias = I('get.alias', false, '/^[0-9a-zA-Z_]+$/');
+		$alias = I('get.alias', false, ALIAS_FORMAT);
 		$Course = D('Course');
 		if($alias === false){
 			$this->error('非法访问');
@@ -35,7 +35,7 @@ class CourseController extends AdminCommonController
 		//数据合法性检验及过滤
 		$data['id'] = I('post.id', 0, '/^\d+$/');
 		$data['name'] = I('post.name','');
-		$data['alias'] = I('post.alias', false, '/^[0-9a-zA-Z_]+$/');
+		$data['alias'] = I('post.alias', false, ALIAS_FORMAT);
 		if ($data['name']=='' && $data['alias']){
 			$this->error('格式有误，请重新检查');
 			exit;
@@ -64,7 +64,7 @@ class CourseController extends AdminCommonController
 	public function checkAlias(){
 		$Course = D('Course');
 		$id = I('post.id', 0, '/^[0-9]+$/');
-		$alias = I('post.alias', '', '/^[0-9a-zA-Z_]+$/');
+		$alias = I('post.alias', '', ALIAS_FORMAT);
 		if($Course->countAlias($id, $alias) == 0){
 			$data = 'success';
 		}else{

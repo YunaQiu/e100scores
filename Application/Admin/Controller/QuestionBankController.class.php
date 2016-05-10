@@ -32,7 +32,7 @@ class QuestionBankController extends AdminCommonController
 
 	//修改题库页
 	public function edit(){
-		$alias = I('get.alias', false, '/^[0-9a-zA-Z_]+$/');
+		$alias = I('get.alias', false, ALIAS_FORMAT);
 		$QuestionBank = D('QuestionBank');
 		if($alias === false){
 			$this->error('非法访问');
@@ -62,9 +62,9 @@ class QuestionBankController extends AdminCommonController
 		//数据合法性检验及过滤
 		$data['id'] = I('post.id', 0, '/^\d+$/');
 		$data['name'] = I('post.name','');
-		$data['alias'] = I('post.alias', false, '/^[0-9a-zA-Z_]+$/');
+		$data['alias'] = I('post.alias', false, ALIAS_FORMAT);
 		$course = I('post.course', false, '/^\w+$/');
-		$data['publish'] = I('post.is_visible', 0, '/^[01]$/');
+		$data['publish'] = I('post.is_visible', 0, TINYINT_FORMAT);
 		if ($data['name']=='' && $data['alias'] && $course){
 			$this->error('格式有误，请重新检查');
 			exit;
@@ -98,7 +98,7 @@ class QuestionBankController extends AdminCommonController
 	// 删除题库
 	public function deleteBank(){
 		$QuestionBank = D('QuestionBank');
-		$alias = I('get.alias', false, '/^[0-9a-zA-Z_]+$/');
+		$alias = I('get.alias', false, ALIAS_FORMAT);
 		if (!$alias){
 			$this->error('非法操作');
 			exit;
@@ -119,7 +119,7 @@ class QuestionBankController extends AdminCommonController
 	public function checkAlias(){
 		$QuestionBank = D('QuestionBank');
 		$id = I('post.id', 0, '/^[0-9]+$/');
-		$alias = I('post.alias', '', '/^[0-9a-zA-Z_]+$/');
+		$alias = I('post.alias', '', ALIAS_FORMAT);
 		if($QuestionBank->countAlias($id, $alias) == 0){
 			$data = 'success';
 		}else{
@@ -132,7 +132,7 @@ class QuestionBankController extends AdminCommonController
 	public function changePublish(){
 		$QuestionBank = D('QuestionBank');
 		$id = I('post.id', 0, '/^\d+$/');
-		$publish = I('post.publish', 0, '/^[01]$/');
+		$publish = I('post.publish', 0, TINYINT_FORMAT);
 		if ($QuestionBank->setPublish($id, $publish)){
 			$this->ajaxReturn('success');
 		}else{
@@ -144,7 +144,7 @@ class QuestionBankController extends AdminCommonController
 	public function getBankList(){
 		$QuestionBank = D('QuestionBank');
 		$Course = D('Course');
-		$alias = I('post.alias', '', '/^[0-9a-zA-Z_]+$/');
+		$alias = I('post.alias', '', ALIAS_FORMAT);
 		if ($alias == ''){
 			$list = $QuestionBank->getBankList();
 		}else{

@@ -7,8 +7,8 @@ class QuestionBankModel extends Model{
 			array('id', 'number', 'id不是数字'),
 			array('course_id', 'number', 'course_id不是数字'),
 			array('name', 'require', 'name不能为空'),
-			array('alias', '/^[0-9a-zA-Z_]+$/', 'alias不合法'),
-			array('publish', '/^[01]$/', 'publish只能0或1'),
+			array('alias', ALIAS_FORMAT, 'alias不合法'),
+			array('publish', TINYINT_FORMAT, 'publish只能0或1'),
 			array('amount', 'number', 'amount不是数字')
 		);
 

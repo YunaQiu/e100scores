@@ -6,7 +6,7 @@ class CourseModel extends Model{
 	protected $_validate = array(
 			array('id', 'number', 'id不是数字'),
 			array('name', 'require', 'name不能为空'),
-			array('alias', '/^[0-9a-zA-Z_]+$/', 'alias不合法'),
+			array('alias', ALIAS_FORMAT, 'alias不合法'),
 		);
 
 	//获取科目列表，以array(alias=>name)的形式返回
