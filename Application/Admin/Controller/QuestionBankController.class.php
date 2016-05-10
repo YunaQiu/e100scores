@@ -32,7 +32,7 @@ class QuestionBankController extends AdminCommonController
 
 	//修改题库页
 	public function edit(){
-		$alias = I('get.alias', false, '/^[0-9a-zA-Z]+$/');
+		$alias = I('get.alias', false, '/^[0-9a-zA-Z_]+$/');
 		$QuestionBank = D('QuestionBank');
 		if($alias === false){
 			$this->error('非法访问');
@@ -62,7 +62,7 @@ class QuestionBankController extends AdminCommonController
 		//数据合法性检验及过滤
 		$data['id'] = I('post.id', 0, '/^\d+$/');
 		$data['name'] = I('post.name','');
-		$data['alias'] = I('post.alias', false, '/^[0-9a-zA-Z]+$/');
+		$data['alias'] = I('post.alias', false, '/^[0-9a-zA-Z_]+$/');
 		$course = I('post.course', false, '/^\w+$/');
 		$data['publish'] = I('post.is_visible', 0, '/^[01]$/');
 		if ($data['name']=='' && $data['alias'] && $course){
@@ -98,7 +98,7 @@ class QuestionBankController extends AdminCommonController
 	// 删除题库
 	public function deleteBank(){
 		$QuestionBank = D('QuestionBank');
-		$alias = I('get.alias', false, '/^[0-9a-zA-Z]+$/');
+		$alias = I('get.alias', false, '/^[0-9a-zA-Z_]+$/');
 		if (!$alias){
 			$this->error('非法操作');
 			exit;
@@ -119,7 +119,7 @@ class QuestionBankController extends AdminCommonController
 	public function checkAlias(){
 		$QuestionBank = D('QuestionBank');
 		$id = I('post.id', 0, '/^[0-9]+$/');
-		$alias = I('post.alias', '', '/^[0-9a-zA-Z]+$/');
+		$alias = I('post.alias', '', '/^[0-9a-zA-Z_]+$/');
 		if($QuestionBank->countAlias($id, $alias) == 0){
 			$data = 'success';
 		}else{
@@ -144,7 +144,7 @@ class QuestionBankController extends AdminCommonController
 	public function getBankList(){
 		$QuestionBank = D('QuestionBank');
 		$Course = D('Course');
-		$alias = I('post.alias', '', '/^[0-9a-zA-Z]+$/');
+		$alias = I('post.alias', '', '/^[0-9a-zA-Z_]+$/');
 		if ($alias == ''){
 			$list = $QuestionBank->getBankList();
 		}else{

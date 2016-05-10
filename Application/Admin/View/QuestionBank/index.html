@@ -2,16 +2,36 @@
 <block name="title">
 	{$title}
 </block>
+<block name="othercss">
+    <style type="text/css">
+        div .form-inline{
+            margin-bottom: 10px;
+        }
+    </style>
+</block>
 <block name="otherjs">
     <script type="text/javascript">
     $(function(){
         $("#course").change(function(){
+            var $course = $(this).val();
+            var $editButton = $('#editCourse');
+            $editButton.removeClass('hidden');
+            $editButton.attr('data-alias', $course);
+            if ($course == ''){
+                $editButton.addClass('hidden');
+            }
             $.post('{:U("QuestionBank/getBankList")}', 
                 {
                     alias: $(this).val()
                 }, function(result){
                     $('#list').html(result);
                 });
+        });
+        $('#editCourse').click(function(){
+            var alias = $(this).attr('data-alias');
+            if (alias != ''){
+                location.href = '{:U("Course/edit")}' + '?alias=' + alias;
+            }
         });
         $("#list").on('click', '.btn-publish', function(){ 
             var obj = $(this);
@@ -38,19 +58,18 @@
 </block>
 <block name="body">
     <h2>题库列表</h2>
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label for="course" class="col-sm-3 col-lg-2 control-label">科目筛选：</label>
-            <div class="col-sm-5 col-lg-4">
-                <select class="form-control" name="course" id="course">
-                    <option value="" selected>（全部）</option>
-                    <volist name="course_list" id="course">
-                        <option value="{$key}">{$course}</option>
-                    </volist>
-                </select>          
-            </div>
+    <div class="form-inline">
+        <div class="input-group">
+            <div class="input-group-addon">科目筛选</div>
+            <select class="form-control" name="course" id="course">
+                <option value="" selected>（全部）</option>
+                <volist name="course_list" id="course">
+                    <option value="{$key}">{$course}</option>
+                </volist>
+            </select>          
         </div>        
-    </form>
+        <button id="editCourse" class="btn btn-primary hidden" data-alias="">编辑科目</button>
+    </div>
 	<div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
