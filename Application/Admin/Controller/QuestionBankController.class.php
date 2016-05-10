@@ -7,7 +7,9 @@ class QuestionBankController extends AdminCommonController
 	//题库列表页
 	public function index(){
 		$QuestionBank = D('QuestionBank');
+		$Course = D('Course');
 		$array['title'] = '题库列表';
+        $array['course_list'] = $Course->getCourseList(); 
 		$array['bank_list'] = $QuestionBank->getBankList();
 		if ($array['bank_list'] === false){
 			$this->error("出错了T^T");
@@ -138,5 +140,26 @@ class QuestionBankController extends AdminCommonController
 		}
 	}
 
+	//AJAX接口：获取指定科目的题库列表
+	public function getBankList(){
+		$QuestionBank = D('QuestionBank');
+		$Course = D('Course');
+		$alias = I('post.alias', '', '/^[0-9a-zA-Z]+$/');
+		if ($alias == ''){
+			$list = $QuestionBank->getBankList();
+		}else{
+			$id = $Course->getCourseId($alias);
+			if ($id == NULL){
+				$this->error('不存在该科目');
+			}			
+			$list = $QuestionBank->getBankList($id);
+		}
+		if ($list === false){
+			$this->error('出错了T^T');
+		}
+		$this->assign('bank_list', $list);
+		$content = $this->fetch('Template:banklist');
+		$this->ajaxReturn($content);
+	}
 }
 ?>

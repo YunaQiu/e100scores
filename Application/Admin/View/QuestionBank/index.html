@@ -5,7 +5,15 @@
 <block name="otherjs">
     <script type="text/javascript">
     $(function(){
-        $(".btn-publish").click(function(){
+        $("#course").change(function(){
+            $.post('{:U("QuestionBank/getBankList")}', 
+                {
+                    alias: $(this).val()
+                }, function(result){
+                    $('#list').html(result);
+                });
+        });
+        $("#list").on('click', '.btn-publish', function(){ 
             var obj = $(this);
             var id = obj.attr('data-id');
             var publish = obj.attr('data-publish');
@@ -29,9 +37,22 @@
     </script> 
 </block>
 <block name="body">
+    <h2>题库列表</h2>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="course" class="col-sm-3 col-lg-2 control-label">科目筛选：</label>
+            <div class="col-sm-5 col-lg-4">
+                <select class="form-control" name="course" id="course">
+                    <option value="" selected>（全部）</option>
+                    <volist name="course_list" id="course">
+                        <option value="{$key}">{$course}</option>
+                    </volist>
+                </select>          
+            </div>
+        </div>        
+    </form>
 	<div class="table-responsive">
         <table class="table table-striped table-hover">
-            <caption>题库列表</caption>
             <thead>
                 <tr class="info">
                     <th>序号</th>
@@ -44,7 +65,7 @@
                     <th>删除</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="list">
             	<empty name="bank_list">
             		<tr><td colspan="8">暂时没有数据</td></tr>
             	</empty>
