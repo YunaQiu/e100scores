@@ -44,12 +44,15 @@ CREATE TABLE IF NOT EXISTS `question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bank_id` int(11) NOT NULL,
   `number` int(11) NOT NULL COMMENT '题号',
+  `alias` varchar(63) COLLATE utf8_unicode_ci NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
   `options` text COLLATE utf8_unicode_ci NOT NULL COMMENT '用json存储，每个包括选项和正确与否',
   `point` int(11) DEFAULT NULL COMMENT '分值',
   `analysis` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
-  KEY `bank_id` (`bank_id`)
+  UNIQUE KEY `alias_2` (`alias`),
+  KEY `bank_id` (`bank_id`),
+  KEY `alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

@@ -4,6 +4,9 @@ html,body{
 	padding: 0px;
 	height: 95%;
 }
+template{
+	display: none;
+}
 /* CSS Document */
 .header{
 	width: 80%;
@@ -31,16 +34,15 @@ html,body{
 .main-body-left,.main-body-right{
 	display:inline-block;
 	position:relative;
+	vertical-align: top;
 }
 .main-body-left{
 	width:65%;
-	float:left;
-	left:5%;
+	margin-left:5%;
 }
 .main-body-right{
 	width:20%;
-	float:right;
-	right:5%;	
+	margin-left: 5%;
 }
 iframe{
 	width:100%;
