@@ -32,7 +32,7 @@ class QuestionController extends AdminCommonController
 	public function add(){
 		$Question = D('Question');
 		$QuestionBank = D('QuestionBank');
-		$bankAlias = I('get.bank_alias', false, ALIAS_FORMAT);
+		$bankAlias = I('get.bank', false, ALIAS_FORMAT);
 		if ($bankAlias === false){
 			$this->error('非法访问');
 			exit;
@@ -56,6 +56,31 @@ class QuestionController extends AdminCommonController
         $this->display('Question/edit');
 	}
 
+	//修改题目页
+	public function edit(){
+		$alias = I('get.alias', false, ALIAS_FORMAT);
+		$Question = D('Question');
+		$QuestionBank = D('QuestionBank');
+		$id = $Question->getQuestionId($alias);
+		if (!$id){
+			$this->error('找不到该题目信息');
+		}
+		$data = $Question->getQuestionInfo($id);
+		$bankInfo = $QuestionBank->getBankInfo($data['bank_id']);
+		$data['bank_alias'] = $bankInfo['alias'];
+		$data['html_title'] = '编辑题目';
+		foreach ($data['options'] as &$value) {
+			if ($value['correct'] == 1){
+				$value['checked'] = 'checked';
+			}
+		}
+		$data['question_list'] = $Question->getQuestionList($data['bank_id']);
+		// echo $id;
+ 		// dump($data);
+       $this->assign($data);
+        $this->display();
+	}
+
 	//保存题库信息
 	public function save(){
 		//数据合法性检验及过滤
@@ -65,7 +90,7 @@ class QuestionController extends AdminCommonController
 		$data['title'] = I('post.title','');
 		$options = I('post.options/a', false);
 		$keys = I('post.key/a', false);
-		$data['analysis'] = I('post.analysis', '', 'htmlspecialchars,nl2br');
+		$data['analysis'] = I('post.analysis', '');
 		$optLength = sizeof($options);
 		$keyLength = sizeof($keys);
 		if (!$data['bank_id'] || !$data['number'] || $data['title']=='' || $optLength<2 || $keyLength<1 || $optLength<$keyLength){
@@ -104,12 +129,12 @@ class QuestionController extends AdminCommonController
 			}
 			$data['options'][$value]['correct'] = 1;
 		}
-		//写入数据库
-		if ($Question->saveRecord($data, $type !== false)){
+		$result = $Question->saveRecord($data, $type);
+		if ($result !== false){
 			$bank = $QuestionBank->getBankInfo($data['bank_id']);
 			$this->success('操作成功', U('Question/index', array('alias'=>$bank['alias'])));
 		}else{
-			$this->error('操作失败，请稍后重试');
+			$this->error('操作失败，请稍后重试'.$result);
 		}
 	}
 

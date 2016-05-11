@@ -43,7 +43,7 @@
 <block name="menu">
     <h3 role="presentation">操作</h3>
 	<ul class="nav nav-pills nav-stacked">
-        <li role="presentation"><a href="{:U('Question/add', array('bank_alias'=>$alias))}">新建题目</a></li>
+        <li role="presentation"><a href="{:U('Question/add', array('bank'=>$alias))}">新建题目</a></li>
         <li role="presentation"><a href="{:U('QuestionBank/edit', array('alias'=>$alias))}">编辑题库信息</a></li>
         <li role="presentation"><a href="{:U('QuestionBank/index')}">返回题库列表</a></li>
     </ul>

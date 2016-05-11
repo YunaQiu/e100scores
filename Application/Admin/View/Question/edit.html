@@ -129,10 +129,10 @@
             </empty>
             <volist name="options" id="opt">
                 <div class="input-group">
-                    <div class="input-group-addon alphaID"><php>echo alphaID($i+1);</php></div>
+                    <div class="input-group-addon alphaID"><php>echo alphaID($key+1);</php></div>
                     <input type="text" name="options[]" class="form-control" required placeholder="请输入选项" value="{$opt['option']}"/>
                     <div class="input-group-addon">
-                    <between name="i" value="0,1">
+                    <between name="key" value="0,1">
                         <button type="button" class="close" disabled="disabled"><span aria-hidden="true">&times;</span></button>
                     <else/>
                         <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
@@ -156,7 +156,7 @@
             </empty>
             <volist name="options" id="opt">
                 <label class="checkbox-inline">
-                    <input type="checkbox" name="key[]" value="{$i}" {$opt['checked']}><php>echo alphaID($i+1);</php>
+                    <input type="checkbox" name="key[]" value="{$key}" {$opt['checked']}><php>echo alphaID($key+1);</php>
                 </label>                            
             </volist>
             <div id="keyMsg" class="alert hidden"></div>

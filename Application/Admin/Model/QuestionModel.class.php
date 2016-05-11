@@ -27,6 +27,15 @@ class QuestionModel extends Model
 		return $list;
 	}
 
+	//返回一条题目记录的详细信息，为空时返回NULL
+	public function getQuestionInfo($id){
+		$Question = M('Question');
+		$result = $Question->where('id=%d', $id)->find();
+		$result['options'] = unserialize($result['options']);
+		$result['key'] = $this->getQuestionKey($result['options']);
+		return $result;
+	}
+
 	/**
 	 * 向数据表保存一条记录
 	 * @param data: 待保存的记录数组，键值包括: id(可选),bank_id,number,title,options(arr),point(可选),analysis(可选)
@@ -35,7 +44,9 @@ class QuestionModel extends Model
 	public function saveRecord($data, $action){
 		$Question = M('Question');
 		$QuestionBank = D('QuestionBank');
-		$data['alias'] = sha1(md5(time()));
+		if($action == 'add'){
+			$data['alias'] = sha1(md5(time()));			
+		}
 		$data['options'] = serialize($data['options']);
 		if ($Question->create($data)){
 			if ($action == 'add'){
@@ -44,7 +55,7 @@ class QuestionModel extends Model
 				$Question->save();
 			}
 			$result = $QuestionBank->updateQuestionAmount($data['bank_id']);
-			return ($result? true: false);
+			return $result;
 		}else{
 			return false;
 		}
@@ -63,6 +74,13 @@ class QuestionModel extends Model
 		}
 		return $result;
 	}
+
+	//返回指定题目别名对应的题目id，如找不到返回NULL
+	public function getQuestionId($alias){
+		$Question = M('Question');
+		$id = $Question->where('alias="%s"', $alias)->getField('id');
+		return $id;
+	}	
 
 	/**
 	* 返回题库下指定题号的题目数量
