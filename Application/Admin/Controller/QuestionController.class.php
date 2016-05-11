@@ -32,6 +32,7 @@ class QuestionController extends AdminCommonController
 	public function add(){
 		$Question = D('Question');
         $data['html_title'] = '新建题目';
+        $data['bank_id'] = 5;
         $data['is_publish'] = array('yes' => '','no' => 'checked');
         $this->assign($data);
         $this->display('Question/edit');

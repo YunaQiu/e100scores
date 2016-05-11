@@ -1,0 +1,182 @@
+<extend name="Public:base" />
+<block name="title">{$html_title}</block>
+<block name="othercss">
+    <style>
+    #info{
+        height: 30px;
+        margin-top: 5px;
+        padding: 5px;
+        padding-left: 10px;
+    }
+    .menu-block{
+        margin-bottom: 50px;
+    }
+    .add{
+        cursor: pointer;
+    }
+    </style>
+</block>
+<block name="otherjs">
+    <include file="Template:newOptions" />
+    <script>
+        $(function(){
+            $("#number").blur(function(){
+                $('#number')[0].setCustomValidity('');
+                if($('#number')[0].checkValidity()){
+                    $.post('{:U("Question/checkNumber")}', 
+                        {
+                            id:{$id|default=0},
+                            bank:{$bank_id},
+                            number:$('#number').val()
+                        },
+                        function(data){
+                            if(data == 'success'){
+                                $("#info").html('该题号有效').removeClass('hidden alert-danger alert-success').addClass('alert-success'); 
+                            }else{
+                                $("#info").html('存在相同题号的题目').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                                $("#number")[0].setCustomValidity('存在相同题号的题目');
+                            }
+                        });
+                }else{
+                    $("#info").html('请输入正确的题号').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                }
+            });
+            $('#editor').submit(function(e){
+                $.ajax({  
+                    type : 'post',  
+                    url : '{:U("Question/checkNumber")}',  
+                    data : {
+                            id:{$id|default=0},
+                            bank:{$bank_id},
+                            number:$('#number').val()
+                    }, 
+                    async : false,  
+                    success : function(data){  
+                        if(data != 'success'){
+                            $("#info").html('存在相同题号的题目').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                            $("#number")[0].setCustomValidity('存在相同题号的题目');
+                            e.preventDefault();
+                        }
+                    }  
+                }); 
+            });
+            $('#options .add').click(function(){
+                var newOption = $('template[name=newOption]').html();
+                var keyCheckbox = $('template[name=keyCheckbox]').html();
+                var length = $('#options .input-group').length;
+                var alphaID = String.fromCharCode(65+length);
+                newOption = newOption.replace('{alpha}', alphaID);
+                $('#options').append(newOption);
+                keyCheckbox = keyCheckbox.replace('{alpha}', alphaID);
+                keyCheckbox = keyCheckbox.replace('{id}', length);
+                $('#key').append(keyCheckbox);
+            });
+            $('#options').on('click', 'button.close', function(){
+                $(this).parents('.input-group').remove();
+                $('#options .input-group').each(function(i){
+                    $(this).children('.alphaID').html(String.fromCharCode(65+i));
+                })
+                $('#key label:last').remove();
+            });
+        });
+    </script>
+</block>
+<block name="body">
+    <h1>{$html_title} </h1>
+    <form id="editor" method="post" enctype="multipart/form-data" action="{:U('Question/save')}" name="editor">
+        <input type="hidden" name="id" value="{$id}" />
+        <input type="hidden" name="bank_id" value="{$bank_id}" />
+ 
+        <div class="form-group">
+            <label for="number">
+                题号<span class="important">*</span>
+            </label>
+            <input type="number" id="number" name="number" class="form-control" min="1" step="1" placeholder="请输入题号（不可重复）" value="{$number}" required/>
+            <div id="info" class="alert hidden"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="title">
+                题干<span class="important">*</span>
+            </label>
+            <input type="text" id="title" name="title" class="form-control" required placeholder="请输入题干" value="{$title}"/>
+        </div>
+
+        <div class="form-group" id="options">
+            <label>
+                选项<span class="important">*</span>
+                <a><span class="glyphicon glyphicon-plus add" aria-hidden="true"></span></a>
+            </label>
+            <empty name="options">
+                <div class="input-group">
+                    <div class="input-group-addon alphaID">A</div>
+                    <input type="text" name="option[]" class="form-control" required placeholder="请输入选项" value=""/>
+                    <div class="input-group-addon">
+                        <button type="button" class="close" disabled="disabled"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon alphaID">B</div>
+                    <input type="text" name="option[]" class="form-control" required placeholder="请输入选项" value=""/>
+                    <div class="input-group-addon">
+                        <button type="button" class="close" disabled="disabled"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                </div>
+            </empty>
+            <volist name="options" id="opt">
+                <div class="input-group">
+                    <div class="input-group-addon alphaID"><php>echo alphaID($i+1);</php></div>
+                    <input type="text" name="option[]" class="form-control" required placeholder="请输入选项" value="{$opt['option']}"/>
+                    <div class="input-group-addon">
+                    <between name="i" value="0,1">
+                        <button type="button" class="close" disabled="disabled"><span aria-hidden="true">&times;</span></button>
+                    <else/>
+                        <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+                    </between>
+                    </div>
+                </div>
+            </volist>
+        </div>
+        <div class="form-group" id="key">
+            <label>
+                答案<span class="important">*</span>
+            </label><br/>
+            <empty name="options">
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="key[]" value="0"> A
+                </label>                
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="key[]" value="1"> B
+                </label>                
+            </empty>
+            <volist name="options" id="opt">
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="key[]" value="{$i}" {$opt['checked']}><php>echo alphaID($i+1);</php>
+                </label>                            
+            </volist>
+        </div>        
+        <div class="form-group">
+            <label for="analysis">答案解析</label>
+            <textarea class="form-control" id="analysis" name="analysis">{$analysis}</textarea>
+        </div>
+        <div style="width:50%;">
+            <button role="button" class="btn btn-primary btn-lg btn-block" type="submit">提交</button>
+        </div>
+    </form>
+</block>
+<block name="menu">
+    <div class="menu-block">
+        <h3 role="">操作</h3>
+        <ul class="nav nav-pills nav-stacked">
+            <li role=""><a href="{:U('Question/index', array('alias'=>$bank_alias))}">返回题目列表</a></li>
+        </ul>
+    </div>
+    <div class="menu-block">
+        <h3 role="">选项列表</h3>
+        <ul class="nav nav-pills nav-stacked">
+            <volist name="other_list" id="vo">
+                <li role="presentation"><a href="{:U('Question/edit', array('alias'=>$vo['alias']))}" class="text-cut">{$vo['number']}.{$vo['title']}</a></li>
+            </volist>
+        </ul>
+    </div>
+</block>

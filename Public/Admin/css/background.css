@@ -88,3 +88,10 @@ caption{
 	border:1px solid #F0F0EE;
 	padding: 10px;
 }
+.text-cut{
+    text-overflow: ellipsis; 
+    -o-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
