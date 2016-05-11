@@ -2,7 +2,7 @@
 <block name="title">{$html_title}</block>
 <block name="othercss">
     <style>
-    #info{
+    .alert{
         height: 30px;
         margin-top: 5px;
         padding: 5px;
@@ -31,14 +31,14 @@
                         },
                         function(data){
                             if(data == 'success'){
-                                $("#info").html('该题号有效').removeClass('hidden alert-danger alert-success').addClass('alert-success'); 
+                                $("#numMsg").html('该题号有效').removeClass('hidden alert-danger alert-success').addClass('alert-success'); 
                             }else{
-                                $("#info").html('存在相同题号的题目').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                                $("#numMsg").html('存在相同题号的题目').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
                                 $("#number")[0].setCustomValidity('存在相同题号的题目');
                             }
                         });
                 }else{
-                    $("#info").html('请输入正确的题号').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                    $("#numMsg").html('请输入正确的题号').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
                 }
             });
             $('#editor').submit(function(e){
@@ -53,12 +53,16 @@
                     async : false,  
                     success : function(data){  
                         if(data != 'success'){
-                            $("#info").html('存在相同题号的题目').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
+                            $("#numMsg").html('存在相同题号的题目').removeClass('hidden alert-danger alert-success').addClass('alert-danger');
                             $("#number")[0].setCustomValidity('存在相同题号的题目');
                             e.preventDefault();
                         }
                     }  
-                }); 
+                });
+                if($('#key [name="key[]"]:checked').length < 1){
+                    $("#keyMsg").html('至少要有一个正确答案').removeClass('hidden alert-danger').addClass('alert-danger');
+                    e.preventDefault();                    
+                }
             });
             $('#options .add').click(function(){
                 var newOption = $('template[name=newOption]').html();
@@ -69,7 +73,7 @@
                 $('#options').append(newOption);
                 keyCheckbox = keyCheckbox.replace('{alpha}', alphaID);
                 keyCheckbox = keyCheckbox.replace('{id}', length);
-                $('#key').append(keyCheckbox);
+                $('#key label:last').after(keyCheckbox);
             });
             $('#options').on('click', 'button.close', function(){
                 $(this).parents('.input-group').remove();
@@ -92,7 +96,7 @@
                 题号<span class="important">*</span>
             </label>
             <input type="number" id="number" name="number" class="form-control" min="1" step="1" placeholder="请输入题号（不可重复）" value="{$number}" required/>
-            <div id="info" class="alert hidden"></div>
+            <div id="numMsg" class="alert hidden"></div>
         </div>
 
         <div class="form-group">
@@ -110,14 +114,14 @@
             <empty name="options">
                 <div class="input-group">
                     <div class="input-group-addon alphaID">A</div>
-                    <input type="text" name="option[]" class="form-control" required placeholder="请输入选项" value=""/>
+                    <input type="text" name="options[]" class="form-control" required placeholder="请输入选项" value=""/>
                     <div class="input-group-addon">
                         <button type="button" class="close" disabled="disabled"><span aria-hidden="true">&times;</span></button>
                     </div>
                 </div>
                 <div class="input-group">
                     <div class="input-group-addon alphaID">B</div>
-                    <input type="text" name="option[]" class="form-control" required placeholder="请输入选项" value=""/>
+                    <input type="text" name="options[]" class="form-control" required placeholder="请输入选项" value=""/>
                     <div class="input-group-addon">
                         <button type="button" class="close" disabled="disabled"><span aria-hidden="true">&times;</span></button>
                     </div>
@@ -126,7 +130,7 @@
             <volist name="options" id="opt">
                 <div class="input-group">
                     <div class="input-group-addon alphaID"><php>echo alphaID($i+1);</php></div>
-                    <input type="text" name="option[]" class="form-control" required placeholder="请输入选项" value="{$opt['option']}"/>
+                    <input type="text" name="options[]" class="form-control" required placeholder="请输入选项" value="{$opt['option']}"/>
                     <div class="input-group-addon">
                     <between name="i" value="0,1">
                         <button type="button" class="close" disabled="disabled"><span aria-hidden="true">&times;</span></button>
@@ -137,6 +141,7 @@
                 </div>
             </volist>
         </div>
+
         <div class="form-group" id="key">
             <label>
                 答案<span class="important">*</span>
@@ -154,7 +159,9 @@
                     <input type="checkbox" name="key[]" value="{$i}" {$opt['checked']}><php>echo alphaID($i+1);</php>
                 </label>                            
             </volist>
+            <div id="keyMsg" class="alert hidden"></div>
         </div>        
+
         <div class="form-group">
             <label for="analysis">答案解析</label>
             <textarea class="form-control" id="analysis" name="analysis">{$analysis}</textarea>
@@ -166,16 +173,19 @@
 </block>
 <block name="menu">
     <div class="menu-block">
-        <h3 role="">操作</h3>
+        <h3>操作</h3>
         <ul class="nav nav-pills nav-stacked">
-            <li role=""><a href="{:U('Question/index', array('alias'=>$bank_alias))}">返回题目列表</a></li>
+            <li><a href="{:U('QuestionBank/edit', array('alias'=>$bank_alias))}">编辑题库信息</a></li>
+            <li><a href="{:U('Question/index', array('alias'=>$bank_alias))}">返回题目列表</a></li>
         </ul>
     </div>
     <div class="menu-block">
-        <h3 role="">选项列表</h3>
+        <h3 role="">其他题目</h3>
         <ul class="nav nav-pills nav-stacked">
-            <volist name="other_list" id="vo">
-                <li role="presentation"><a href="{:U('Question/edit', array('alias'=>$vo['alias']))}" class="text-cut">{$vo['number']}.{$vo['title']}</a></li>
+            <volist name="question_list" id="vo">
+                <neq name="vo['alias']" value="$alias">
+                    <li role="presentation"><a href="{:U('Question/edit', array('alias'=>$vo['alias'], 'bank_alias'=>$bank_alias))}" class="text-cut">{$vo['number']}.{$vo['title']}</a></li>
+                </neq>
             </volist>
         </ul>
     </div>

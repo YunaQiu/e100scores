@@ -116,9 +116,9 @@
 <block name="menu">
     <h3 role="">操作</h3>
     <ul class="nav nav-pills nav-stacked">
-        <li role=""><a href="{:U('QuestionBank/index')}">返回题库列表</a></li>
         <present name="id">
-            <li role=""><a href="">编辑题目</a></li>
+            <li role=""><a href="{:U('Question/index', array('alias'=>$alias))}">查看题目列表</a></li>
         </present>
+        <li role=""><a href="{:U('QuestionBank/index')}">返回题库列表</a></li>
     </ul>
 </block>

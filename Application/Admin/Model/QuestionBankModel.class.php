@@ -88,5 +88,38 @@ class QuestionBankModel extends Model{
 		$result = $QuestionBank->delete($id);
 		return $result;
 	}
+
+	//更新指定题库的题量信息
+	public function updateQuestionAmount($id){
+		$QuestionBank = M('QuestionBank');
+		$Question = M('Question');
+		if (!is_numeric($id)){
+			return false;
+		}
+		$amount = $Question->where('bank_id="%d"', $id)->count();
+		if ($amount === false){
+			return false;
+		}
+		$QuestionBank->amount = $amount;
+		if ($QuestionBank->field('amount')->where('id="%d"', $id)->save()){
+			return $amount;
+		}else{
+			return false;
+		}
+	}
+
+	// 返回指定题库的题量信息
+	public function getQuestionAmount($id){
+		$QuestionBank = M('QuestionBank');
+		if (!is_numeric($id)){
+			return false;
+		}
+		$amount = $QuestionBank->where('id="%d"', $id)->getField('amount');
+		if ($amount === false){
+			return false;
+		}else{
+			return $amount;
+		}
+	}
 }
 ?>
