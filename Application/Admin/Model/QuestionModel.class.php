@@ -61,6 +61,19 @@ class QuestionModel extends Model
 		}
 	}
 
+	//删除指定的题目
+	public function deleteQuestion($id){
+		$Question = M('Question');
+		$QuestionBank = D('QuestionBank');
+		if (!is_numeric($id)){
+			return false;
+		}
+		$bankId = $Question->where('id="%d"', $id)->getField('bank_id');
+		$result = $Question->delete($id);
+		$QuestionBank->updateQuestionAmount($bankId);
+		return $result;
+	}
+
 	/**
 	* 根据选项信息返回正确答案字符串
 	* @param options：选项格式：array(array('option'=>str,'correct'=>tinyint))

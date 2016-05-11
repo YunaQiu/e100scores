@@ -130,11 +130,36 @@ class QuestionController extends AdminCommonController
 			$data['options'][$value]['correct'] = 1;
 		}
 		$result = $Question->saveRecord($data, $type);
+		// echo $result;
+		// exit;
 		if ($result !== false){
 			$bank = $QuestionBank->getBankInfo($data['bank_id']);
 			$this->success('操作成功', U('Question/index', array('alias'=>$bank['alias'])));
 		}else{
 			$this->error('操作失败，请稍后重试'.$result);
+		}
+	}
+
+	// 删除题目
+	public function delete(){
+		$Question = D('Question');
+		$QuestionBank = D('QuestionBank');
+		$alias = I('get.alias', false, ALIAS_FORMAT);
+		if (!$alias){
+			$this->error('非法操作');
+			exit;
+		}
+		$id = $Question->getQuestionId($alias);
+		if ($id == NULL){
+			$this->error('题目不存在');
+		}
+		$info = $Question->getQuestionInfo($id);
+		$bankInfo = $QuestionBank->getBankInfo($info['bank_id']);
+		$result = $Question->deleteQuestion($id);
+		if ($result){
+			$this->success('操作成功', U('Question/index', array('alias'=>$bankInfo['alias'])));
+		}else{
+			$this->error('操作失败');
 		}
 	}
 
