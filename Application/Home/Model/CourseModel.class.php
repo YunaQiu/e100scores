@@ -1,5 +1,5 @@
 <?php
-namespace Admin\Model;
+namespace Home\Model;
 use Think\Model;
 class CourseModel extends Model{
 	//获取科目列表，以array(alias=>name)的形式返回

@@ -1,5 +1,5 @@
 <?php
-namespace Admin\Model;
+namespace Home\Model;
 use Think\Model;
 class QuestionBankModel extends Model{
 	//返回指定科目的题库列表，为空时返回null

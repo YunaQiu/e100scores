@@ -1,5 +1,5 @@
 <?php
-namespace Admin\Model;
+namespace Home\Model;
 use Think\Model;
 class QuestionModel extends Model
 {
