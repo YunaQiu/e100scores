@@ -14,7 +14,7 @@ class AuthController extends Controller {
 		}
 		$openId = $response->openid;
 		$User = D('User');
-		if ($User->getUserId($openId) == null){
+		if ($User->hasRegister($openId) == null){
 			$User->addUser($openId);
 		}
 		session('userid',$response->openid);

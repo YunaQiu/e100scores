@@ -99,13 +99,10 @@ CREATE TABLE IF NOT EXISTS `result` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `open_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `id` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `register_time` datetime NOT NULL COMMENT '注册时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `open_id_2` (`open_id`),
-  KEY `open_id` (`open_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
