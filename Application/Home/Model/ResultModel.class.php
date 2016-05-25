@@ -6,6 +6,7 @@ class ResultModel extends Model{
 	public function getRecordById($id){
 		$Result = M('Result');
 		$record = $Result->where('id="%d"', $id)->find();
+		$record['answer'] = unserialize($record['answer']);
 		return $record;
 	}
 
@@ -13,6 +14,9 @@ class ResultModel extends Model{
 	public function getRecordBySearch($userId, $bankId){
 		$Result = M('Result');
 		$record = $Result->where('user_id="%d" AND bank_id="%d"', $userId, $bankId)->find();
+		if ($record != null){
+			$record['answer'] = unserialize($record['answer']);
+		}
 		return $record;
 	}
 

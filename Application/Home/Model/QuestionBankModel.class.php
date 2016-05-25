@@ -22,7 +22,7 @@ class QuestionBankModel extends Model{
 	//返回指定题库别名对应的题库id，如找不到返回NULL
 	public function getBankId($alias){
 		$QuestionBank = M('QuestionBank');
-		$id = $QuestionBank->where('alias="%s"', $alias)->getField('id');
+		$id = $QuestionBank->where('alias="%s" AND publish=1', $alias)->getField('id');
 		return $id;
 	}	
 

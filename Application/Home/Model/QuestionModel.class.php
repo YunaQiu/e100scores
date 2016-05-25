@@ -21,15 +21,19 @@ class QuestionModel extends Model
 	public function getQuestionInfoById($id){
 		$Question = M('Question');
 		$result = $Question->where('id=%d', $id)->find();
-		$result['options'] = unserialize($result['options']);
-		$result['key'] = $this->getQuestionKey($result['options']);
+		if ($result != null){
+			$result['options'] = unserialize($result['options']);
+			$result['key'] = $this->getQuestionKey($result['options']);
+		}
 		return $result;
 	}
 	public function getQuestionInfoByNum($bankId, $number){
 		$Question = M('Question');
 		$result = $Question->where('bank_id=%d AND number=%d', $bankId, $number)->find();
-		$result['options'] = unserialize($result['options']);
-		$result['key'] = $this->getQuestionKey($result['options']);
+		if ($result != null){
+			$result['options'] = unserialize($result['options']);
+			$result['key'] = $this->getQuestionKey($result['options']);
+		}
 		return $result;		
 	}
 

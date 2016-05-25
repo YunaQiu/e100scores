@@ -31,8 +31,10 @@ class QuestionModel extends Model
 	public function getQuestionInfo($id){
 		$Question = M('Question');
 		$result = $Question->where('id=%d', $id)->find();
-		$result['options'] = unserialize($result['options']);
-		$result['key'] = $this->getQuestionKey($result['options']);
+		if ($result != null){
+			$result['options'] = unserialize($result['options']);
+			$result['key'] = $this->getQuestionKey($result['options']);
+		}
 		return $result;
 	}
 
