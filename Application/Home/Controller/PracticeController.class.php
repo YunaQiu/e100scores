@@ -37,7 +37,15 @@ class PracticeController extends Controller {
 		dump($data);
 	}
 
-	// 根据用户、题库、题号判断题目访问是否合法，若合法则返回正确的题号
+	/**
+	* 根据用户、题库、题号判断题目访问是否合法，若合法则返回对应访问的题号，不合法返回相应错误消息
+	* @param userId: 用户id，不另外做有效性验证，仅做存在性检验
+	* @param bankId: 题库id，不做有效性验证，仅与userid一起做存在性检验
+	* @param number: 题号，做有效性检验、存在性检验及访问权限检验
+	* @return: 若题号不合法或题目不存在，返回'undefined'
+	*		   若无访问权限，返回'jump'
+	*		   否则根据参数情况返回应该访问的题号
+	*/
 	private function getValidNum($userId, $bankId, $number){
 		if (!is_numeric($number) || $number < 0){
 			return 'undefined';
@@ -63,5 +71,26 @@ class PracticeController extends Controller {
 		}else{
 			return $number;
 		}
+	}
+
+	// ajax接口：返回题库完成情况相关信息
+	public function getResultMenu(){
+		$bankId = I('get.bank', '', '/^\d$/');
+		$userId = session('userid');
+		$QuestionBank = D('QuestionBank');
+		$Result = D('Result');
+
+		$result = $Result->getRecordBySearch($userId, $bankId);
+		$bank = $QuestionBank->getBankInfo($bankId);
+		$data['answer'] = $result['answer'];
+		$data['enable'] = sizeof($result['answer']);
+		$data['total'] = $bank['amount'];
+		$data['correct'] = 0;
+		foreach ($result as $value) {
+			if ($value['correct'] == 1){
+				$data['correct']++;
+			}
+		}
+		$this->ajaxReturn($data);
 	}
 }
