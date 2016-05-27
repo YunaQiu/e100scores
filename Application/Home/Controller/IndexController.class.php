@@ -4,8 +4,9 @@ use Think\Controller;
 class IndexController extends HomeCommonController {
 	public function index(){
 		$Course = D('Course');
-		$data = $Course->getCourseList();
-		dump($data);
+		$data['course'] = $Course->getCourseList();
+		$this->assign($data);
+		$this->display();
 	}
 
 	public function bankList(){
