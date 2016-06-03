@@ -1,0 +1,52 @@
+<extend name="Public:base" />
+<block name="title">易百分——{$course}</block>
+<block name="otherjs">
+	<script src="__JS__/localstorage.js" defer></script>
+	<script type="text/javascript">
+	$(function(){
+		$('.bank-item').click(function(event) {
+			var bank = $(this).attr('id');
+			var url = "{:U('Practice/index')}" + '/bank/' + bank;
+			location.href = url;
+		});
+		$('.bank-progress').each(function(){
+			var bank = $(this).parents('.bank-item').attr('id');
+			var $complete = $(this).find('.complete');
+			if (UserStorage.isExist(bank)){
+				var userData = UserStorage.get(bank);
+				var progress = userData.length;
+				$complete.html(progress);
+				UserStorage.upload(bank);
+			}else if ($complete.html() != 0){
+				UserStorage.download(bank);
+			}
+		})
+	})
+	</script>
+</block>
+<block name="main">
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>题库名称</th>
+				<th>进度</th>
+			</tr>
+		</thead>
+		<tbody>
+			<empty name="list">
+				<tr><td colspan="3">还没有相关题库哦~</td></tr>
+			</empty>
+			<foreach name="list" item="vo">
+				<tr id="{$vo['alias']}" class="bank-item">
+					<td>{$key + 1}</td>
+					<td>{$vo['name']}</td>
+					<td class="bank-progress">
+						<span class="complete">{$vo['progress']}</span>
+						/ {$vo['amount']}
+					</td>
+				</tr>
+			</foreach>
+		</tbody>
+	</table>
+</block>

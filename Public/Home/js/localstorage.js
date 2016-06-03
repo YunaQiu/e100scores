@@ -50,17 +50,26 @@ var UserStorage = (function(){
 	function uploadCloud(alias){
 		var name = getStorageName(alias);
 		var data = storage.getItem(name);
-		$.post('{:U()}', 
+		$.post('{:U("Practice/updateUserData")}', 
 			{
 				bank: alias,
 				data: data
 			});
 	}
+	function downloadData(alias){
+		var name = getStorageName(alias);
+		$.post('{:U("Practice/loadUserData")}', {bank: name}, function(result){
+			if (result.status == 0){
+				LocalStorage.set(name, result.data);
+			}
+		}, json)
+	}
 	return {
 		isExist: isExist,
 		get: getStorage,
 		set: setStorage,
-		upload: uploadCloud
+		upload: uploadCloud,
+		download: downloadData
 	};
 })();
 

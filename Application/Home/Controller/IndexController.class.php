@@ -19,21 +19,23 @@ class IndexController extends HomeCommonController {
 		if ($courseId == null){
 			$this->error('找不到指定科目');
 		}
-
+		$courseInfo = $Course->getCourseInfo($courseId);
+		$data['course'] = $courseInfo['name'];
 		$QuestionBank = D('QuestionBank');
 		$Result = D('Result');
 		$userId = session('userid');
 		$data['list'] = $QuestionBank->getBankList($courseId);
 		foreach ($data['list'] as &$value) {
 			$progress = $Result->getRecordBySearch($userId, $value['id']);
-			if ($progress == null){
-				$value['progress'] = 0;
-			}else{
-				$value['progress'] = $progress['completed'];
-			}
+            if ($progress == null){
+            	$value['progress'] = 0;
+            }else{
+                $value['progress'] = $progress['completed'];
+            }
 		}
-
-		dump($data);
+		// dump($data);
+		$this->assign($data);
+		$this->display();
 	}
 }
 ?>
