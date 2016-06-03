@@ -11,3 +11,9 @@ html,body{
 	height: 100%;
 	z-index: -1;
 }
+@font-face {
+    font-family: '微软雅黑';
+    src: url('../font/msyh.ttf') format('truetype');
+    font-weight: normal;
+    font-size: normal;
+}
