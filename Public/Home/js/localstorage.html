@@ -1,0 +1,102 @@
+<script>
+//坑爹Thinkphp！为什么不给我解析public里面的文件啊啊啊，人家要用:U函数啊喂~
+var LocalStorage = (function(){
+	localStorage = window.localStorage;
+
+	function isExist(name){
+		var userData = localStorage.getItem(name);
+		if (userData){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	function getStorage(name){
+		var userData = localStorage.getItem(name);
+		if (userData){
+			return $.parseJSON(userData);	
+		}else{
+			return false;
+		}
+	}
+	function setStorage(name, obj){
+		var data = JSON.stringify(obj);
+		localStorage.setItem(name, data);
+	}
+
+	return {
+		isExist: isExist,
+		get: getStorage,
+		set: setStorage
+	};
+})();
+
+function UserStorage(alias){
+	var storage = window.localStorage;
+	this.name = alias + '-user';
+
+	this.isExist = function isExist(){
+		var userData = LocalStorage.isExist(this.name);
+		return userData;
+	}
+	this.getAll = function getStorage(){
+		var userData = LocalStorage.get(this.name);
+	}
+	this.setAll = function setStorage(obj){
+		LocalStorage.set(this.name, obj);
+	}
+	this.get = function getSingleRecord(number){
+		var userData = getStorage();
+		if (userData.length >= number){
+			return userData[number-1];
+		}else{
+			return false;
+		}
+	}
+	this.set = function setSingleRecord(number, obj){
+		var userData = getStorage();
+		if (userData.length <= number + 1){
+			userData[number-1] = obj;
+			setStorage(userData);
+		}else{
+			return false;
+		}
+	}
+	this.upload = function uploadCloud(){
+		var data = storage.getItem(this.name);		//因为不需要将字符串数据转对象，所以使用原有的localstorage方法
+		$.post('{:U("Practice/updateUserData")}', 
+			{
+				bank: alias,
+				data: data
+			});
+	}
+	this.download = function downloadData(){
+		$.post('{:U("Practice/loadUserData")}', {bank: this.name}, function(result){
+			if (result.status == 0){
+				LocalStorage.set(this.name, result.data);
+			}
+		}, 'json');
+	}
+}
+
+function BankStorage(name){
+	this.name = name;
+	this.isExist = LocalStorage.isExist;
+	this.load = function download(){
+		$.post('{:U("Practice/loadBank")}', {bank: this.name}, function(result){
+			if (result.status == 0){
+				LocalStorage.set(name, result.data);
+			}
+		}, 'json');
+	}
+	this.getAll = LocalStorage.get;
+	this.get = function getSingleRecord(number){
+		var userData = LocalStorage.get(this.name);
+		if (userData.length >= number){
+			return userData[number-1];
+		}else{
+			return false;
+		}
+	}
+};
+</script>

@@ -1,0 +1,48 @@
+<extend name="Public:base" />
+<block name="title">易百分—{$bank}</block>
+<block name="otherjs">
+	<include file="./Public/Home/js/localstorage.html" />
+	<script type="text/javascript">
+	var bank = '{$bank_alias}';
+	var number = {$number};
+	var total = {$amount};
+	var bankStorage = new BankStorage(bank);
+	var question = null;
+	$(function(){
+		$('#preview').click(function(){
+			if (number != 0){
+				var question = bankStorage.get(number);
+				$('.title').text(question.title);
+			}
+		});
+	});
+	bankStorage.load();
+	</script>
+</block>
+<block name="main">
+	<div class="show">
+			<h1 class="title">{$title}</h1>
+			<foreach name="options" item="op" key="k">
+				<div class="checkbox">
+					<label>
+						<present name="answer">
+							<eq name="answer[$k]" value="1">
+								<input type="checkbox" data-correct="{$op[correct]}" value="" checked>
+							<else/>
+								<input type="checkbox" data-correct="{$op[correct]}" value="">
+							</eq>
+						<else/>
+							<input type="checkbox" data-correct="{$op[correct]}" value="">
+						</present>
+						{$op['option']}
+					</label>
+				</div>
+			</foreach>
+			<button id="preview" class="btn btn-default">上一题</button>
+			<button id="next" class="btn btn-default">下一题</button>
+		<div class="hidden">
+			<strong>解析：{$key}</strong><br>
+			{$analysis}
+		</div>
+	</div>
+</block>

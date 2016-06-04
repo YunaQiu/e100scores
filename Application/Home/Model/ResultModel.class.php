@@ -26,5 +26,27 @@ class ResultModel extends Model{
 		$result = $Result->where('alias="%s"', $courseAlias)->getField('id');
 		return $result;
 	}
+
+	//保存用户答题数据
+	public function saveRecord($userId, $bankId, $data){
+		$Result = M('Result');
+		$record = $this->getRecordBySearch($userId, $bankId);
+		if ($record == null){
+			$data['user_id'] = $userId;
+			$data['bank_id'] = $bankId;
+		}else{
+			$data['id'] = $record['id'];
+		}
+		if ($Result->create($data)){
+			if ($record == null){
+				$Result->add();
+			}else{
+				$Result->save();
+			}
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 ?>

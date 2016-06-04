@@ -1,7 +1,7 @@
 <extend name="Public:base" />
-<block name="title">易百分——{$course}</block>
+<block name="title">易百分—{$course}</block>
 <block name="otherjs">
-	<script src="__JS__/localstorage.js" defer></script>
+	<include file="./Public/Home/js/localstorage.html" />
 	<script type="text/javascript">
 	$(function(){
 		$('.bank-item').click(function(event) {
@@ -11,14 +11,15 @@
 		});
 		$('.bank-progress').each(function(){
 			var bank = $(this).parents('.bank-item').attr('id');
+			var userStorage = new UserStorage(bank);
 			var $complete = $(this).find('.complete');
-			if (UserStorage.isExist(bank)){
-				var userData = UserStorage.get(bank);
+			if (userStorage.isExist()){
+				var userData = userStorage.getAll();
 				var progress = userData.length;
 				$complete.html(progress);
-				UserStorage.upload(bank);
+				userStorage.upload();
 			}else if ($complete.html() != 0){
-				UserStorage.download(bank);
+				userStorage.download();
 			}
 		})
 	})
