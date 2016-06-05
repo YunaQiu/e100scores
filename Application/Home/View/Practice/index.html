@@ -6,13 +6,30 @@
 	<script type="text/javascript">
 	var bank = '{$bank_alias}';
 	var number = {$number};
+	var latest = {$latest};
 	var total = {$amount};
 	var bankStorage = new BankStorage(bank);
 	var userStorage = new UserStorage(bank);
 	bankStorage.load();
 	$(function(){
 		if (userStorage.isExist()){
-			loadUserData(number);
+			var userData = userStorage.getAll();
+			if (latest == 1){
+				if (number != userData.length+1){
+					number = userData.length+1;
+					loadQuestion(number);
+				}else{
+					loadUserData(number);
+				}
+			}else if (number > userData.length+1){
+				alert('对不起，不可以跳题哦~');
+				number = userData.length+1;
+				loadQuestion(number);				
+			}else{
+				loadUserData(number);				
+			}
+		}else{
+			userStorage.download();
 		}
 		$('#pre').click(function(event) {
 			if (number != 1){
