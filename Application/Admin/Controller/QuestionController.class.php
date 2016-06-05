@@ -58,11 +58,9 @@ class QuestionController extends AdminCommonController
 
 	//修改题目页
 	public function edit(){
-		// $alias = I('get.alias', false, ALIAS_FORMAT);
 		$id = I('get.id', 0, '/^\d+$/');
 		$Question = D('Question');
 		$QuestionBank = D('QuestionBank');
-		// $id = $Question->getQuestionId($alias);
 		if ($id == 0){
 			$this->error('非法访问');
 		}
@@ -132,8 +130,6 @@ class QuestionController extends AdminCommonController
 			$data['options'][$value]['correct'] = 1;
 		}
 		$result = $Question->saveRecord($data, $type);
-		// echo $result;
-		// exit;
 		if ($result !== false){
 			$bank = $QuestionBank->getBankInfo($data['bank_id']);
 			$this->success('操作成功', U('Question/index', array('alias'=>$bank['alias'])));
@@ -146,13 +142,11 @@ class QuestionController extends AdminCommonController
 	public function delete(){
 		$Question = D('Question');
 		$QuestionBank = D('QuestionBank');
-		// $alias = I('get.alias', false, ALIAS_FORMAT);
 		$id = I('get.id', 0, '/^\d+$/');
 		if ($id == 0){
 			$this->error('非法操作');
 			exit;
 		}
-		// $id = $Question->getQuestionId($alias);
 		$info = $Question->getQuestionInfo($id);
 		if ($info == NULL){
 			$this->error('题目不存在');
