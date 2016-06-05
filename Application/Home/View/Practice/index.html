@@ -1,48 +1,123 @@
 <extend name="Public:base" />
 <block name="title">易百分—{$bank}</block>
 <block name="otherjs">
+	<include file="Template/questionOption" />
 	<include file="./Public/Home/js/localstorage.html" />
 	<script type="text/javascript">
 	var bank = '{$bank_alias}';
 	var number = {$number};
 	var total = {$amount};
 	var bankStorage = new BankStorage(bank);
-	var question = null;
+	var userStorage = new UserStorage(bank);
+	bankStorage.load();
 	$(function(){
-		$('#preview').click(function(){
-			if (number != 0){
-				var question = bankStorage.get(number);
-				$('.title').text(question.title);
+		if (userStorage.isExist()){
+			loadUserData(number);
+		}
+		$('#pre').click(function(event) {
+			if (number != 1){
+				number -= 1;
+				loadQuestion(number);
+			}
+		});
+		$('#next').click(function(){
+			if (!$('.analysis').hasClass('hidden')){
+				number += 1;
+				loadQuestion(number);
+			}
+			else if (number < total){
+				var correct = true;
+				var userData = new Array();
+				if ($('.options input:checked').length == 0){
+					alert('对不起，不可以跳题哦~');
+					return;
+				}
+				$('.options').find('li input').each(function(i){
+					userData[i] = $(this).is(':checked')? 1: 0;
+					$(this).attr('disabled', true);
+					if (!isCorrect($(this))){
+						correct = false;
+					}
+				});
+				userStorage.set(number, userData);
+				if (correct){
+					number += 1;
+					loadQuestion(number);				
+				}else{
+					$('.analysis').removeClass('hidden');
+				}
 			}
 		});
 	});
-	bankStorage.load();
+
+	function isCorrect($option){
+		if ($option.is(':checked') && $option.data('correct') == 1){
+			return true;
+		}else if (!$option.is(':checked') && $option.data('correct') == 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	function loadQuestion(number){
+		var question = bankStorage.get(number);
+		$('.show').addClass('hidden');
+		$('.title').text(number + '. ' + question.title);
+		$options = $('.options').empty();
+		for (var i=0; i<question.options.length; i++){
+			var option = $('template[name=option]').html();
+			option = option.replace("{$op['correct']}", question.options[i].correct);
+			option = option.replace("{$k}", i);
+			option = option.replace("{$op['option']}", question.options[i].option);
+			$options.append(option);
+		}
+		loadUserData(number);
+		$('.analysis').find('.key').html(question.key);
+		$('.analysis').find('p').html(question.analysis);
+		$('.show').removeClass('hidden');
+	}
+	function loadUserData(number){
+		var answer = userStorage.get(number);
+		if (answer){
+			$('.options').find('li input').each(function(i){
+				$(this).attr('disabled', true);
+				if (answer[i] == 1){
+					$(this).attr('checked', true);
+				}
+			})
+			$('.analysis').removeClass('hidden');
+		}else{
+			$('.analysis').addClass('hidden');
+		}
+	}
 	</script>
 </block>
 <block name="main">
 	<div class="show">
-			<h1 class="title">{$title}</h1>
+		<h1 class="title">{$number}. {$title}</h1>
+		<ul class="options">
 			<foreach name="options" item="op" key="k">
-				<div class="checkbox">
+				<li class="checkbox">
 					<label>
 						<present name="answer">
 							<eq name="answer[$k]" value="1">
-								<input type="checkbox" data-correct="{$op[correct]}" value="" checked>
+								<input type="checkbox" data-correct="{$op['correct']}" value="{$k}" checked>
 							<else/>
-								<input type="checkbox" data-correct="{$op[correct]}" value="">
+								<input type="checkbox" data-correct="{$op['correct']}" value="{$k}">
 							</eq>
 						<else/>
-							<input type="checkbox" data-correct="{$op[correct]}" value="">
+							<input type="checkbox" data-correct="{$op['correct']}" value="{$k}">
 						</present>
 						{$op['option']}
 					</label>
-				</div>
-			</foreach>
-			<button id="preview" class="btn btn-default">上一题</button>
-			<button id="next" class="btn btn-default">下一题</button>
-		<div class="hidden">
-			<strong>解析：{$key}</strong><br>
-			{$analysis}
+				</li>
+			</foreach>			
+		</ul>
+		<button id="pre" class="btn btn-default">上一题</button>
+		<button id="next" class="btn btn-default">下一题</button>
+		<div class="analysis hidden">
+			<strong>解析：<span class="key">{$key}</span></strong>
+			<p>{$analysis}</p>
 		</div>
 	</div>
 </block>

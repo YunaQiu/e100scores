@@ -33,64 +33,77 @@ var LocalStorage = (function(){
 
 function UserStorage(alias){
 	var storage = window.localStorage;
-	this.name = alias + '-user';
-
-	this.isExist = function isExist(){
-		var userData = LocalStorage.isExist(this.name);
+	var name = alias + '-user';
+	function isExist(){
+		var userData = LocalStorage.isExist(name);
 		return userData;
 	}
-	this.getAll = function getStorage(){
-		var userData = LocalStorage.get(this.name);
+	function getStorage(){
+		var userData = LocalStorage.get(name);
+		return userData;
 	}
-	this.setAll = function setStorage(obj){
-		LocalStorage.set(this.name, obj);
+	function setStorage(obj){
+		LocalStorage.set(name, obj);
 	}
-	this.get = function getSingleRecord(number){
+	function getSingleRecord(number){
 		var userData = getStorage();
+		if (!userData){
+			return false;
+		}
 		if (userData.length >= number){
 			return userData[number-1];
 		}else{
 			return false;
 		}
 	}
-	this.set = function setSingleRecord(number, obj){
+	function setSingleRecord(number, obj){
 		var userData = getStorage();
-		if (userData.length <= number + 1){
+		if (!userData){
+			userData = new Array();
+		}
+		if (userData.length >= number - 1){
 			userData[number-1] = obj;
 			setStorage(userData);
+			return true;
 		}else{
 			return false;
 		}
 	}
-	this.upload = function uploadCloud(){
-		var data = storage.getItem(this.name);		//因为不需要将字符串数据转对象，所以使用原有的localstorage方法
+	function uploadCloud(){
+		var data = storage.getItem(name);		//因为不需要将字符串数据转对象，所以使用原有的localstorage方法
 		$.post('{:U("Practice/updateUserData")}', 
 			{
 				bank: alias,
 				data: data
 			});
 	}
-	this.download = function downloadData(){
-		$.post('{:U("Practice/loadUserData")}', {bank: this.name}, function(result){
+	function downloadData(){
+		$.post('{:U("Practice/loadUserData")}', {bank: name}, function(result){
 			if (result.status == 0){
-				LocalStorage.set(this.name, result.data);
+				LocalStorage.set(name, result.data);
 			}
 		}, 'json');
 	}
+
+	this.isExist = isExist;
+	this.getAll = getStorage;
+	this.setAll = setStorage;
+	this.get = getSingleRecord;
+	this.set = setSingleRecord;
+	this.upload = uploadCloud;
+	this.download = downloadData;
 }
 
 function BankStorage(name){
 	this.name = name;
-	this.isExist = LocalStorage.isExist;
-	this.load = function download(){
+	function download(){
 		$.post('{:U("Practice/loadBank")}', {bank: this.name}, function(result){
 			if (result.status == 0){
 				LocalStorage.set(name, result.data);
 			}
 		}, 'json');
 	}
-	this.getAll = LocalStorage.get;
-	this.get = function getSingleRecord(number){
+	function getSingleRecord(number){
 		var userData = LocalStorage.get(this.name);
 		if (userData.length >= number){
 			return userData[number-1];
@@ -98,5 +111,10 @@ function BankStorage(name){
 			return false;
 		}
 	}
+
+	this.isExist = LocalStorage.isExist;
+	this.load = download;
+	this.getAll = LocalStorage.get;
+	this.get = getSingleRecord;
 };
 </script>

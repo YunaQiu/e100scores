@@ -3,6 +3,9 @@ html,body{
 	padding: 0px;
 	font-family: Arial, 微软雅黑;
 }
+template{
+	display: none;
+}
 .uitest{
 	position: absolute;
 	top: 0px;
