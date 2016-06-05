@@ -58,14 +58,18 @@ class QuestionController extends AdminCommonController
 
 	//修改题目页
 	public function edit(){
-		$alias = I('get.alias', false, ALIAS_FORMAT);
+		// $alias = I('get.alias', false, ALIAS_FORMAT);
+		$id = I('get.id', 0, '/^\d+$/');
 		$Question = D('Question');
 		$QuestionBank = D('QuestionBank');
-		$id = $Question->getQuestionId($alias);
-		if (!$id){
-			$this->error('找不到该题目信息');
+		// $id = $Question->getQuestionId($alias);
+		if ($id == 0){
+			$this->error('非法访问');
 		}
 		$data = $Question->getQuestionInfo($id);
+		if ($data == null){
+			$this->error('找不到该题目信息');
+		}
 		$bankInfo = $QuestionBank->getBankInfo($data['bank_id']);
 		$data['bank_alias'] = $bankInfo['alias'];
 		$data['html_title'] = '编辑题目';
@@ -75,9 +79,7 @@ class QuestionController extends AdminCommonController
 			}
 		}
 		$data['question_list'] = $Question->getQuestionList($data['bank_id']);
-		// echo $id;
- 		// dump($data);
-       $this->assign($data);
+        $this->assign($data);
         $this->display();
 	}
 
@@ -144,16 +146,17 @@ class QuestionController extends AdminCommonController
 	public function delete(){
 		$Question = D('Question');
 		$QuestionBank = D('QuestionBank');
-		$alias = I('get.alias', false, ALIAS_FORMAT);
-		if (!$alias){
+		// $alias = I('get.alias', false, ALIAS_FORMAT);
+		$id = I('get.id', 0, '/^\d+$/');
+		if ($id == 0){
 			$this->error('非法操作');
 			exit;
 		}
-		$id = $Question->getQuestionId($alias);
-		if ($id == NULL){
+		// $id = $Question->getQuestionId($alias);
+		$info = $Question->getQuestionInfo($id);
+		if ($info == NULL){
 			$this->error('题目不存在');
 		}
-		$info = $Question->getQuestionInfo($id);
 		$bankInfo = $QuestionBank->getBankInfo($info['bank_id']);
 		$result = $Question->deleteQuestion($id);
 		if ($result){

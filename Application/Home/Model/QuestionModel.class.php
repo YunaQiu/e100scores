@@ -50,12 +50,5 @@ class QuestionModel extends Model
 		}
 		return $result;
 	}
-
-	//返回指定题目别名对应的题目id，如找不到返回NULL
-	public function getQuestionId($alias){
-		$Question = M('Question');
-		$id = $Question->where('alias="%s"', $alias)->getField('id');
-		return $id;
-	}	
 }
 ?>

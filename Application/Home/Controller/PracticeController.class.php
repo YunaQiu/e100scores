@@ -124,7 +124,7 @@ class PracticeController extends HomeCommonController {
 			exit;
 		}
 		foreach ($bankData as &$value) {
-			unset($value['id'],$value['alias'],$value['bank_id'],$value['number'],$value['point']);
+			unset($value['id'],$value['bank_id'],$value['number'],$value['point']);
 		}
 		$data['status'] = 0;
 		$data['data'] = $bankData;
