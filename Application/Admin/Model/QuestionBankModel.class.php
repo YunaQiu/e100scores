@@ -104,7 +104,6 @@ class QuestionBankModel extends Model{
 		if ($QuestionBank->field('amount')->where('id="%d"', $id)->save($data) !== false){
 			return $amount;
 		}else{
-			// return 123;
 			return false;
 		}
 	}

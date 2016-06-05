@@ -24,7 +24,6 @@ class QuestionBankController extends AdminCommonController
 	public function add(){
 		$Course = D('Course');
         $array['title'] = '新建题库';
-        $array['is_publish'] = array('yes' => '','no' => 'checked');
         $array['course_list'] = $Course->getCourseList(); 
         $this->assign($array);
         $this->display('QuestionBank/edit');
@@ -47,12 +46,7 @@ class QuestionBankController extends AdminCommonController
 		$Course = D('Course');
         $data['title'] = '编辑题库';
         $data['course_list'] = $Course->getCourseList(); 
-        if($data['publish'] == 1){
- 	    	$data['is_publish'] = array('yes' => 'checked','no' => '');
-        }else{
-        	$data['is_publish'] = array('yes' => '','no' => 'checked');
-        }
-        unset($data['course_id'], $data['publish'], $data['amount'], $data['course']);
+        unset($data['course_id'], $data['amount'], $data['course']);
         $this->assign($data);
         $this->display();
 	}
@@ -64,7 +58,6 @@ class QuestionBankController extends AdminCommonController
 		$data['name'] = I('post.name','');
 		$data['alias'] = I('post.alias', false, ALIAS_FORMAT);
 		$course = I('post.course', false, '/^\w+$/');
-		$data['publish'] = I('post.is_visible', 0, TINYINT_FORMAT);
 		if ($data['name']=='' && $data['alias'] && $course){
 			$this->error('格式有误，请重新检查');
 			exit;
