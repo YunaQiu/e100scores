@@ -35,7 +35,6 @@ class PracticeController extends HomeCommonController {
 		$data['bank'] = $bankInfo['name'];
 		$data['bank_alias'] = $bankAlias; 
 		$data['amount'] = $bankInfo['amount'];
-		// dump($data);
 		$this->assign($data);
 		$this->display();
 	}

@@ -20,13 +20,6 @@ class ResultModel extends Model{
 		return $record;
 	}
 
-	//查找指定科目别名对应的科目id，查找不到时返回NULL
-	public function getResultId($ResultAlias){
-		$Result = M('Result');
-		$result = $Result->where('alias="%s"', $courseAlias)->getField('id');
-		return $result;
-	}
-
 	//保存用户答题数据
 	public function saveRecord($userId, $bankId, $data){
 		$Result = M('Result');
