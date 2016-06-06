@@ -44,15 +44,12 @@ CREATE TABLE IF NOT EXISTS `question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bank_id` int(11) NOT NULL,
   `number` int(11) NOT NULL COMMENT '题号',
-  `alias` varchar(63) COLLATE utf8_unicode_ci NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
-  `options` text COLLATE utf8_unicode_ci NOT NULL COMMENT '用json存储，每个包括选项和正确与否',
+  `options` text COLLATE utf8_unicode_ci NOT NULL COMMENT '序列化存储，每个包括选项和正确与否',
   `point` int(11) DEFAULT NULL COMMENT '分值',
   `analysis` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `alias_2` (`alias`),
-  KEY `bank_id` (`bank_id`),
-  KEY `alias` (`alias`)
+  KEY `bank_id` (`bank_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -66,9 +63,10 @@ CREATE TABLE IF NOT EXISTS `question_bank` (
   `course_id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `publish` tinyint(1) NOT NULL,
+  `publish` tinyint(1) DEFAULT '0',
   `amount` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `alias_2` (`alias`),
   KEY `course_id` (`course_id`),
   KEY `course_id_2` (`course_id`),
   KEY `alias` (`alias`)
@@ -84,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `bank_id` int(11) NOT NULL,
-  `answer` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'json存储，包括答案及对错',
+  `answer` text COLLATE utf8_unicode_ci NOT NULL COMMENT '序列化存储，包括答案及对错',
   `completed` int(11) NOT NULL DEFAULT '0' COMMENT '已完成题数',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
