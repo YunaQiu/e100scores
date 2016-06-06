@@ -37,13 +37,7 @@ nav .pull-right{
 	align-items: baseline;
 }
 .checkbox button{
-	width: 20px;
-	height: 20px;
-	border-radius: 5px;
 	margin-right: 10px;
-	font-size: 1rem;
-	flex-shrink: 0;
-	border-color: #ddd;
 }
 .checkbox .checked{
 	border-color: #FAC501;

@@ -35,6 +35,15 @@ ul,li{
 .flex-end{
 	align-self: flex-end;
 }
+.sequence-btn{
+	width: 20px;
+	height: 20px;
+	border-radius: 5px;
+	font-size: 1rem;
+	flex-shrink: 0;
+	border-color: #ddd;	
+	background-color: #fff;
+}
 .text-cut{
     text-overflow: ellipsis; 
     -o-text-overflow: ellipsis;

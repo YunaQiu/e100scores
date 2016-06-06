@@ -54,12 +54,12 @@
 				<li class="checkbox">
 					<present name="answer">
 						<eq name="answer[$k]" value="1">
-							<button class="btn btn-default btn-xs" data-correct="{$op['correct']}" data-checked="1"><php>echo alphaID($k+1);</php></button>
+							<button class="btn sequence-btn btn-xs" data-correct="{$op['correct']}" data-checked="1"><php>echo alphaID($k+1);</php></button>
 						<else/>
-							<button class="btn btn-default btn-xs" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
+							<button class="btn sequence-btn btn-xs" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
 						</eq>
 					<else/>
-							<button class="btn btn-default btn-xs" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
+							<button class="btn sequence-btn btn-xs" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
 					</present>
 					{$op['option']}
 				</li>
