@@ -72,6 +72,14 @@ class QuestionModel extends Model
 		return $result;
 	}
 
+	public function deleteQuestionsByBank($bank_id){
+		$Question = M('Question');
+		if (!is_numeric($bank_id)){
+			return false;
+		}
+		$result = $Question->where('bank_id = %d', $bank_id)->delete();
+		return $result;
+	}
 	/**
 	* 根据选项信息返回正确答案字符串
 	* @param options：选项格式：array(array('option'=>str,'correct'=>tinyint))

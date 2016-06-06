@@ -82,10 +82,14 @@ class QuestionBankModel extends Model{
 	//删除指定的题库
 	public function deleteBank($id){
 		$QuestionBank = M('QuestionBank');
+		$Question = D('Question');
 		if (!is_numeric($id)){
 			return false;
 		}
-		$result = $QuestionBank->delete($id);
+		$result = $Question->deleteQuestionsByBank($id);
+		if ($result !== false){
+			$result = $QuestionBank->delete($id);
+		}
 		return $result;
 	}
 

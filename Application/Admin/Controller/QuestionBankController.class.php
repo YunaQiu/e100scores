@@ -101,7 +101,7 @@ class QuestionBankController extends AdminCommonController
 			$this->error('题库不存在');
 		}
 		$result = $QuestionBank->deleteBank($id);
-		if ($result){
+		if ($result !== false){
 			$this->success('操作成功', U('QuestionBank/index'));
 		}else{
 			$this->error('操作失败');
