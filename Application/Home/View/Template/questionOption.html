@@ -1,8 +1,6 @@
 <template name="option">
 <li class="checkbox">
-	<label>
-		<input type="checkbox" data-correct="{$op['correct']}" value="{$k}">
-		{$op['option']}
-	</label>
+	<button class="btn btn-default btn-xs" data-correct="{correct}" data-checked="0">{alpha}</button>
+	<span>{option}</span>
 </li>	
 </template>

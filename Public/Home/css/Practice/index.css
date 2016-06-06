@@ -1,0 +1,76 @@
+nav,
+.content>*:not(hr),
+.answer>*:not(hr){
+	width: 85%;
+	margin-left: auto;
+	margin-right: auto;
+}
+nav{
+	height: 25px;
+}
+nav *{
+	height: 25px;
+}
+nav .pull-right{
+	margin-left: 10px;
+}
+.bank-progress{
+	line-height: 25px;
+	font-size: 1rem;
+}
+.bank-progress .number{
+	font-size: 1.5rem;
+}
+.content{
+	font-size: 1rem;
+}
+.title{
+	font-size: 1.5rem;
+}
+.checkbox{
+	margin-bottom: 20px;		
+	padding-left: 2px;
+	padding-right: 2px;
+
+	display: -webkit-flex; /* Safari */
+	display: flex;
+	align-items: baseline;
+}
+.checkbox button{
+	width: 20px;
+	height: 20px;
+	border-radius: 5px;
+	margin-right: 10px;
+	font-size: 1rem;
+	flex-shrink: 0;
+	border-color: #ddd;
+}
+.checkbox .checked{
+	border-color: #FAC501;
+}
+.checkbox .correct{
+	border-color: #ddd;
+	background-color: #66B763;
+	color: #fff;
+}
+.btn-bar{
+	margin-top: 40px;
+	text-align: center;
+}
+.btn-bar button{
+	width: 80px;
+	margin-right: 40px;
+	color: #FAC501;
+	border-color: #FAC501;
+}
+.btn-bar button:active{
+	color: #fff;
+	background-color: #FAC501;		
+}
+.btn-bar button:last-child{
+	margin-right: 0px;
+}
+.answer p{
+	margin-bottom: 10px;
+	font-size: 0.8rem;
+}

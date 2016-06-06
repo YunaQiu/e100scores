@@ -42,6 +42,16 @@ ul,li{
     overflow: hidden;
     white-space: nowrap;
 }
+/*此处开始无限次怀念less，然而我没用_(:зゝ∠)_*/
+.yellow{
+	color: #FAC501;
+}
+.bg-yellow{
+	background-color: #FAC501;
+}
+.border-yellow{
+	border-color: #FAC501;
+}
 @font-face {
     font-family: '微软雅黑';
     src: url('../font/msyh.ttf') format('truetype');
