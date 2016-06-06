@@ -126,6 +126,13 @@ class QuestionBankController extends AdminCommonController
 		$QuestionBank = D('QuestionBank');
 		$id = I('post.id', 0, '/^\d+$/');
 		$publish = I('post.publish', 0, TINYINT_FORMAT);
+		if ($publish == 1){
+			$Question = D('Question');
+			if (!$Question->isConsecutive($id)){
+				$this->ajaxReturn('jump');
+				exit;
+			}
+		}
 		if ($QuestionBank->setPublish($id, $publish)){
 			$this->ajaxReturn('success');
 		}else{

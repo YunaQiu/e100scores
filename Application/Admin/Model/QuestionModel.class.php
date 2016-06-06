@@ -100,5 +100,19 @@ class QuestionModel extends Model
 		$total = $Question->where($map)->count();
 		return $total;
 	}
+
+	public function isConsecutive($bankId){
+		$Question = M('Question');
+		$total = $Question->where('bank_id = "%s"', $bankId)->count();
+		$map['bank_id'] = array('eq', $bankId);
+		$map['number'] = array('egt', 1);
+		$map['number'] = array('elt', $total);
+		$count = $Question->where($map)->count();
+		if ($count == $total){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 ?>

@@ -48,6 +48,8 @@
                         obj.attr('data-publish', setStatus);
                         var newStatus = (setStatus == 1)? '是': '否';
                         obj.html(newStatus);
+                    }else if(result == 'jump'){
+                        alert('操作失败，请检查题号是否连续且合法');
                     }else{
                         alert('操作失败');
                     }
