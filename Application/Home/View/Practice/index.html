@@ -43,7 +43,7 @@
 </block>
 <block name="main">
 	<nav class="clearfix">
-		<img src="" id="menu" width="30" class="pull-right" />
+		<img src="__IMG__/menu.png" id="menu" class="pull-right" data-toggle="modal" data-target="#questionListModal" />
 		<div class="bank-progress pull-right">
 			<span class="number yellow">{$number}</span>
 			/ {$amount}
@@ -51,7 +51,7 @@
 	</nav>
 	<div class="content">
 		<h1 class="title">{$title}</h1>
-		<hr/>
+		<hr class="head-bar"/>
 		<ul class="options">
 			<foreach name="options" item="op" key="k">
 				<li class="checkbox">
@@ -69,12 +69,12 @@
 			</foreach>			
 		</ul>
 		<div class="btn-bar">			
-			<button id="pre" class="btn btn-default btn-xs">上一题</button>
-			<button id="next" class="btn btn-default btn-xs">下一题</button>
+			<button id="pre" class="btn btn-sm yellow bg-white border-yellow">上一题</button>
+			<button id="next" class="btn btn-sm white bg-yellow border-yellow">下一题</button>
 		</div>
 	</div>
 	<div class="answer hidden">
-		<hr/>
+		<hr class="foot-bar"/>
 		<p class="yellow">正确答案：<span class="key">{$key}</span></p>
 		<empty name="analysis">
 			<p class="hidden">解析：<span class="analysis">{$analysis}</span></p>

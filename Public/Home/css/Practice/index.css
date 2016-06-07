@@ -6,29 +6,35 @@ nav,
 	margin-right: auto;
 }
 nav{
-	height: 25px;
+	margin-top: 10px;
+	height: 20px;
 }
 nav *{
-	height: 25px;
+	height: 100%;
 }
 nav .pull-right{
 	margin-left: 10px;
 }
 .bank-progress{
 	line-height: 25px;
-	font-size: 1rem;
+	font-size: 1.5rem;
 }
 .bank-progress .number{
-	font-size: 1.5rem;
+	font-size: 1.3em;
 }
 .content{
-	font-size: 1rem;
+	font-size: 1.3rem;
 }
 .title{
-	font-size: 1.5rem;
+	font-size: 1.7rem;
+	line-height: 1.8rem;
+}
+.head-bar{
+	margin-top: 30px;
+	margin-bottom: 22px;
 }
 .checkbox{
-	margin-bottom: 20px;		
+	margin-bottom: 25px;		
 	padding-left: 2px;
 	padding-right: 2px;
 
@@ -43,26 +49,29 @@ nav .pull-right{
 	border-color: #FAC501;
 }
 .checkbox .correct{
-	border-color: #ddd;
-	background-color: #66B763;
+	background-color: #32b16c;
+	color: #fff;
+}
+.checkbox .incorrect{
+	background-color: #ec6941;
 	color: #fff;
 }
 .btn-bar{
-	margin-top: 40px;
+	margin-top: 45px;
 	text-align: center;
 }
 .btn-bar button{
-	width: 80px;
-	margin-right: 40px;
-	color: #FAC501;
-	border-color: #FAC501;
-}
-.btn-bar button:active{
-	color: #fff;
-	background-color: #FAC501;		
+	width: 90px;
+	margin-right: 30px;
+	font-size: 1.3rem;
+	border-radius: 6px;
 }
 .btn-bar button:last-child{
 	margin-right: 0px;
+}
+.foot-bar{
+	margin-top: 20px;
+	margin-bottom: 15px;
 }
 .answer p{
 	margin-bottom: 10px;

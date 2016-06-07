@@ -29,10 +29,17 @@ $(function(){
 				$(this).addClass('disabled');
 			});
 			userStorage.set(number, userData);
-			if (isCorrect() && number < total){
-				number += 1;
-				loadQuestion(number);				
+			if (isCorrect()){
+				$('.options .checked').addClass('correct').removeClass('checked');
+				$('.answer').removeClass('hidden');
+				if (number < total){
+					setTimeout(function(){
+						number += 1;
+						loadQuestion(number);
+					}, 400);
+				}				
 			}else{
+				$('.options .checked').addClass('incorrect').removeClass('checked');
 				$('.answer').removeClass('hidden');
 			}
 		}else if (number < total){
@@ -89,7 +96,9 @@ function loadUserData(number){
 			}
 		})
 		if (isCorrect()){
-			$('.options').find('button.checked').addClass('correct').removeClass('checked');
+			$('.options .checked').addClass('correct').removeClass('checked');
+		}else{
+			$('.options .checked').addClass('incorrect').removeClass('checked');
 		}
 		$('.answer').removeClass('hidden');
 	}else{

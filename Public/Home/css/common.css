@@ -54,7 +54,7 @@ ul,li{
 	border-radius: 5px;
 	font-size: 1rem;
 	flex-shrink: 0;
-	border-color: #ddd;	
+	border-color: #e5e5e5;	
 	background-color: #fff;
 }
 .text-cut{
@@ -65,6 +65,12 @@ ul,li{
     white-space: nowrap;
 }
 /*此处开始无限次怀念less，然而我没用_(:зゝ∠)_*/
+.white{
+	color: white;
+}
+.bg-white{
+	background-color: white;
+}
 .yellow{
 	color: #ffd966;
 }
