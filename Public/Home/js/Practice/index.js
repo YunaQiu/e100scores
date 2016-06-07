@@ -16,11 +16,7 @@ $(function(){
 		}
 	});
 	$('#next').click(function(){
-		if (!$('.answer').hasClass('hidden')){
-			number += 1;
-			loadQuestion(number);
-		}
-		else if (number < total){
+		if ($('.answer').hasClass('hidden')){
 			var correct = true;
 			var userData = new Array();
 			if ($('.options button.checked').length == 0){
@@ -33,12 +29,15 @@ $(function(){
 				$(this).addClass('disabled');
 			});
 			userStorage.set(number, userData);
-			if (isCorrect()){
+			if (isCorrect() && number < total){
 				number += 1;
 				loadQuestion(number);				
 			}else{
 				$('.answer').removeClass('hidden');
 			}
+		}else if (number < total){
+			number += 1;
+			loadQuestion(number);
 		}
 	});	
 });

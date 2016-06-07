@@ -16,8 +16,11 @@
 		if (userStorage.isExist()){
 			var userData = userStorage.getAll();
 			if (latest == 1){
-				if (number != userData.length+1){
+				if (userData.length < total && number != userData.length+1){
 					number = userData.length+1;
+					loadQuestion(number);
+				}else if (userData.length == total && number != total){
+					number = total;
 					loadQuestion(number);
 				}else{
 					loadUserData(number);
@@ -70,7 +73,7 @@
 			<button id="next" class="btn btn-default btn-xs">下一题</button>
 		</div>
 	</div>
-	<div class="answer" class="hidden">
+	<div class="answer hidden">
 		<hr/>
 		<p class="yellow">正确答案：<span class="key">{$key}</span></p>
 		<empty name="analysis">
