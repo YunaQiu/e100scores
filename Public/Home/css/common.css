@@ -21,7 +21,7 @@ ul,li{
 }
 .item-case{
 	height: 30px;
-	border: 1px solid #CCCCCC;
+	border: 1px solid #e5e5e5;
 	border-radius: 5px;
 
 	display: -webkit-flex; /* Safari */
@@ -30,6 +30,19 @@ ul,li{
 	align-items: center;
 
 	font-size: 1rem;
+	text-align: center;
+}
+.item-case-bg{
+	height: 50px;
+	border: 1px solid #e5e5e5;
+	border-radius: 10px;
+
+	display: -webkit-flex; /* Safari */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	font-size: 1.8rem;
 	text-align: center;
 }
 .flex-end{
@@ -53,13 +66,13 @@ ul,li{
 }
 /*此处开始无限次怀念less，然而我没用_(:зゝ∠)_*/
 .yellow{
-	color: #FAC501;
+	color: #ffd966;
 }
 .bg-yellow{
-	background-color: #FAC501;
+	background-color: #ffd966;
 }
 .border-yellow{
-	border-color: #FAC501;
+	border-color: #ffd966;
 }
 @font-face {
     font-family: '微软雅黑';

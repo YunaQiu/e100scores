@@ -2,25 +2,30 @@
 <block name="title">易百分—{$course}</block>
 <block name="othercss">
 	<style type="text/css">
+	.banner{
+		width: 100%;
+		margin: 10px 0 10px 0;
+	}
+	ul{
+		margin-top: 40px;
+	}
 	.bank-item{
-		margin-bottom: 20px;
+		margin-bottom: 40px;
 	}
-	.item-case{
-		width: 80%;
-		font-size: 1.5rem;
-		height: 40px;
+	.item-case-bg{
+		width: 85%;
 	}
-	.item-case:active{
-		border-color: #E2C20C;
+	.item-case-bg:active{
+		border-color: #ffd966;
 	}
 	.bank-number{
-		width: 30px;
+		width: 45px;
 		border-right: 1px solid;
 		border-color: inherit;
 		flex-shrink: 0;
 	}
 	.bank-progress{
-		color: #B3B3B3;
+		color: #c9c9c9;
 		font-size: 1rem;
 		margin-right: 5px;
 		flex-shrink: 0;
@@ -53,18 +58,18 @@
 	</script>
 </block>
 <block name="main">
+	<img src="__IMG__/bank_bg.png" class="banner">
 	<ul>
 		<empty name="list">
-			<li class="item-case"><span class="center-block">还没有相关题库哦~</span></li>
+			<li class="item-case-bg"><span class="center-block">还没有相关题库哦~</span></li>
 		</empty>
 		<foreach name="list" item="vo">
-			<li id="{$vo['alias']}" class="bank-item item-case">
+			<li id="{$vo['alias']}" class="bank-item item-case-bg">
 				<div class="bank-number">{$key + 1}</div>
 				<div class="bank-name">{$vo['name']}</div>
 				<div class="bank-progress flex-end">
 					进度：
-					<span class="complete">{$vo['progress']}</span>
-					/ {$vo['amount']}
+					<span class="complete">{$vo['progress']}</span>/{$vo['amount']}
 				</div>
 			</li>
 		</foreach>
