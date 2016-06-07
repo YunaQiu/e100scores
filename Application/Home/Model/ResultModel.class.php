@@ -13,7 +13,7 @@ class ResultModel extends Model{
 	//通过用户及题库id获取答题数据，查找不到时返回null
 	public function getRecordBySearch($userId, $bankId){
 		$Result = M('Result');
-		$record = $Result->where('user_id="%d" AND bank_id="%d"', $userId, $bankId)->find();
+		$record = $Result->where("user_id='%s' AND bank_id=%d", $userId, $bankId)->find();
 		if ($record != null){
 			$record['answer'] = unserialize($record['answer']);
 		}

@@ -75,13 +75,16 @@ function UserStorage(alias){
 			{
 				bank: alias,
 				data: data
+			},function(data){
+				console.log(data);
 			});
 	}
 	function downloadData(){
-		$.post('{:U("Practice/loadUserData")}', {bank: name}, function(result){
+		$.post('{:U("Practice/loadUserData")}', {bank: alias}, function(result){
 			if (result.status == 0){
 				LocalStorage.set(name, result.data);
 			}
+			console.log(result);
 		}, 'json');
 	}
 

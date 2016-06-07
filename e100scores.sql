@@ -80,9 +80,9 @@ CREATE TABLE IF NOT EXISTS `question_bank` (
 
 CREATE TABLE IF NOT EXISTS `result` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `bank_id` int(11) NOT NULL,
-  `answer` text COLLATE utf8_unicode_ci NOT NULL COMMENT '序列化存储，包括答案及对错',
+  `answer` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'json存储，包括答案及对错',
   `completed` int(11) NOT NULL DEFAULT '0' COMMENT '已完成题数',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),

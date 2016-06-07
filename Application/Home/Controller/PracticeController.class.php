@@ -24,6 +24,9 @@ class PracticeController extends HomeCommonController {
 			$data['latest'] = 0;
 		}else{
 			$number = $this->getLatestNum();
+			if ($number < $bankInfo['amount']){
+				$number += 1;
+			}
 			$data = $Question->getQuestionInfoByNum($bankId, $number);
 			$data['latest'] = 1;
 		}
@@ -35,7 +38,6 @@ class PracticeController extends HomeCommonController {
 		$data['bank'] = $bankInfo['name'];
 		$data['bank_alias'] = $bankAlias; 
 		$data['amount'] = $bankInfo['amount'];
-		// dump($data);
 		$this->assign($data);
 		$this->display();
 	}
@@ -44,9 +46,9 @@ class PracticeController extends HomeCommonController {
 		$Result = D('Result');
 		$answer = $Result->getRecordBySearch($userId, $bankId);
 		if ($answer == null){
-			return 1;
+			return 0;
 		}else{
-			return ($answer['completed'] + 1);
+			return ($answer['completed']);
 		}
 	}
 
@@ -64,7 +66,8 @@ class PracticeController extends HomeCommonController {
 			exit;
 		}
 		$userId = session('userid');
-		$data['answer'] = json_decode($userData);
+		$userData = json_decode($userData); 
+		$data['answer'] = $userData;
 		$data['completed'] = sizeof($userData);
 		$Result = D('Result');
 		$result = $Result->saveRecord($userId, $bankId, $data);
