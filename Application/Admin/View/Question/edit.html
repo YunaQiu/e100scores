@@ -183,8 +183,8 @@
         <h3 role="">其他题目</h3>
         <ul class="nav nav-pills nav-stacked">
             <volist name="question_list" id="vo">
-                <neq name="vo['alias']" value="$alias">
-                    <li role="presentation"><a href="{:U('Question/edit', array('alias'=>$vo['alias'], 'bank_alias'=>$bank_alias))}" class="text-cut">{$vo['number']}.{$vo['title']}</a></li>
+                <neq name="vo['id']" value="$id">
+                    <li role="presentation"><a href="{:U('Question/edit', array('id'=>$vo['id'], ))}" class="text-cut">{$vo['number']}.{$vo['title']}</a></li>
                 </neq>
             </volist>
         </ul>
