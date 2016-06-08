@@ -81,10 +81,22 @@ ul,li{
 .white{
 	color: white;
 }
+.white:active{
+	color: white;
+}
+.white:focus{
+	color: white;
+}
 .bg-white{
 	background-color: white;
 }
 .yellow{
+	color: #ffd966;
+}
+.yellow:active{
+	color: #ffd966;
+}
+.yellow:focus{
 	color: #ffd966;
 }
 .bg-yellow{
