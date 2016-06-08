@@ -48,6 +48,17 @@ $(function(){
 		}
 	});	
 });
+function jumpToPage(num){
+	if (num > userStorage.getAll().length+1){
+		alert('对不起，不可以跳题哦');
+		return false;
+	}else{
+		number = num;
+		loadQuestion(number);
+		$('#questionListModal').modal('hide');
+		return true;		
+	}
+}
 
 function isCorrect(){
 	var correct = true;

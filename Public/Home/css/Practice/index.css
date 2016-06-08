@@ -45,17 +45,6 @@ nav .pull-right{
 .checkbox button{
 	margin-right: 10px;
 }
-.checkbox .checked{
-	border-color: #FAC501;
-}
-.checkbox .correct{
-	background-color: #32b16c;
-	color: #fff;
-}
-.checkbox .incorrect{
-	background-color: #ec6941;
-	color: #fff;
-}
 .btn-bar{
 	margin-top: 45px;
 	text-align: center;

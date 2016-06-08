@@ -1,0 +1,117 @@
+<style type="text/css">
+	.modal-content{
+		width: 350px;
+		margin: 50% auto 0 auto;
+	}
+	.md-btn-list{
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: center;
+		align-content: space-around;
+	}
+	.md-btn-item{
+		width: 20%;
+		margin: 15px 0 15px 0;
+		text-align: center;
+	}
+	.md-btn{
+		width: 25px;
+		height: 25px;
+		font-size: 1.5rem;
+	}
+	.md-close{
+		position: relative;
+		display: block;
+		margin: 10px auto 0 auto;
+		float: none;
+	}
+</style>
+<template name="modalbtn">
+	<li class="md-btn-item">
+		<button class="btn sequence-btn md-btn" data-page="{page}">{page}</button>
+	</li>
+</template>
+<div class="modal fade" id="questionListModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<ul class="md-btn-list">
+				</ul>
+				<button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var QuModal = (function(){
+	var bank;
+	var userStorage;
+	var bankStorage;
+	var btnClick;
+
+	function init(obj){
+		bank = obj.bank;
+		userStorage = new UserStorage(bank);
+		bankStorage = new BankStorage(bank);
+		if (!bankStorage.isExist()){
+			return false;
+		}
+		var bankData = bankStorage.getAll();
+		for (var i=0; i<bankData.length; i++){
+			var modalBtn = $('template[name=modalbtn]').html();
+			modalBtn = modalBtn.replace(/{page}/g, i+1);
+			$('.md-btn-list').append(modalBtn);
+		}
+		if (typeof(obj.click) == 'function'){
+			btnClick = obj.click;
+		}
+		return true;
+	}
+	function isCorrect(num){
+		var opData = bankStorage.get(num).options;
+		var userData = userStorage.get(num);
+		if (!userData){
+			return null;
+		}
+		for (var i=0; i < opData.length; i++){
+			if (userData[i] != opData[i].correct){
+				return false;
+			}
+		}
+		return true;
+	}
+	$(function(){
+		$('.md-btn-list').on('click', '.md-btn', function(){
+			var page = $(this).data('page');
+			// 默认跳转到对应的做题页，也可以交由自定义的函数自行处理事件
+			if (typeof(btnClick) == 'function'){
+				btnClick(page);
+				return;
+			}
+			var progress = userStorage.getAll().length;
+			if (page <= progress+1){
+				location.href = "{:U('Practice/index')}/bank/" + bank + '/num/' + page;				
+			}else{
+				alert('对不起，不可以跳题哦');
+			}
+		})
+		$('#questionListModal').on('show.bs.modal', function (e) {
+			 var length = userStorage.getAll().length;
+			 for (var i=0; i<length; i++){
+			 	var selector = '.md-btn:eq(' + i + ')';
+			 	var $modalBtn = $(selector)
+			 	if (isCorrect(i+1)){
+			 		$modalBtn.addClass('correct');
+			 	}else{
+			 		$modalBtn.addClass('incorrect');
+			 	}
+			 }
+		})
+	})
+	return {
+		init: init
+	}
+})();
+</script>

@@ -52,10 +52,22 @@ ul,li{
 	width: 20px;
 	height: 20px;
 	border-radius: 5px;
+	padding: 0px;
 	font-size: 1rem;
 	flex-shrink: 0;
 	border-color: #e5e5e5;	
 	background-color: #fff;
+}
+.sequence-btn.checked{
+	border-color: #FAC501;
+}
+.sequence-btn.correct{
+	background-color: #32b16c;
+	color: #fff;
+}
+.sequence-btn.incorrect{
+	background-color: #ec6941;
+	color: #fff;
 }
 .text-cut{
     text-overflow: ellipsis; 

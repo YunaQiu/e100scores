@@ -11,7 +11,14 @@
 	var total = {$amount};
 	var bankStorage = new BankStorage(bank);
 	var userStorage = new UserStorage(bank);
-	bankStorage.load();
+	bankStorage.load(function(result){
+		if (result == 0){
+			QuModal.init({
+				bank: bank,
+				click: jumpToPage
+			});
+		}
+	});
 	$(function(){
 		if (userStorage.isExist()){
 			var userData = userStorage.getAll();
@@ -35,6 +42,7 @@
 		}else{
 			userStorage.download();
 		}
+
 	});
 	</script>
 </block>
@@ -57,12 +65,12 @@
 				<li class="checkbox">
 					<present name="answer">
 						<eq name="answer[$k]" value="1">
-							<button class="btn sequence-btn btn-xs" data-correct="{$op['correct']}" data-checked="1"><php>echo alphaID($k+1);</php></button>
+							<button class="btn sequence-btn" data-correct="{$op['correct']}" data-checked="1"><php>echo alphaID($k+1);</php></button>
 						<else/>
-							<button class="btn sequence-btn btn-xs" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
+							<button class="btn sequence-btn" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
 						</eq>
 					<else/>
-							<button class="btn sequence-btn btn-xs" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
+							<button class="btn sequence-btn" data-correct="{$op['correct']}" data-checked="0"><php>echo alphaID($k+1);</php></button>
 					</present>
 					{$op['option']}
 				</li>
@@ -82,4 +90,5 @@
 			<p>解析：<span class="analysis">{$analysis}</span></p>
 		</empty>
 	</div>
+	<include file="Public/questionsListModal" />
 </block>
