@@ -69,22 +69,27 @@ function UserStorage(alias){
 			return false;
 		}
 	}
-	function uploadCloud(){
+	function uploadCloud(fun){
 		var data = storage.getItem(name);		//因为不需要将字符串数据转对象，所以使用原有的localstorage方法
 		$.post('{:U("Practice/updateUserData")}', 
 			{
 				bank: alias,
 				data: data
 			},function(data){
-				console.log(data);
+				if (typeof(fun) == "function"){
+					fun(data);				
+				}
 			});
 	}
-	function downloadData(){
+	function downloadData(fun){
 		$.post('{:U("Practice/loadUserData")}', {bank: alias}, function(result){
 			if (result.status == 0){
 				LocalStorage.set(name, result.data);
 			}
 			console.log(result);
+			if (typeof(fun) == "function"){
+				fun(result.status);				
+			}
 		}, 'json');
 	}
 
@@ -107,10 +112,14 @@ function BankStorage(name){
 		var bankData = LocalStorage.get(name);
 		return bankData;
 	}
-	function download(){
+	function download(fun){
 		$.post('{:U("Practice/loadBank")}', {bank: this.name}, function(result){
 			if (result.status == 0){
 				LocalStorage.set(name, result.data);
+			}
+			console.log(result);
+			if (typeof(fun) == "function"){
+				fun(result.status);				
 			}
 		}, 'json');
 	}
