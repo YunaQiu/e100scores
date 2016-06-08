@@ -29,17 +29,13 @@ $(function(){
 				$(this).addClass('disabled');
 			});
 			userStorage.set(number, userData);
-			if (isCorrect()){
-				$('.options .checked').addClass('correct').removeClass('checked');
-				$('.answer').removeClass('hidden');
-				if (number < total){
-					setTimeout(function(){
-						number += 1;
-						loadQuestion(number);
-					}, 400);
-				}				
+			var result = showCorrection();
+			if (result && number < total){
+				setTimeout(function(){
+					number += 1;
+					loadQuestion(number);
+				}, 400);
 			}else{
-				$('.options .checked').addClass('incorrect').removeClass('checked');
 				$('.answer').removeClass('hidden');
 			}
 		}else if (number < total){
@@ -59,7 +55,27 @@ function jumpToPage(num){
 		return true;		
 	}
 }
-
+function showCorrection(){
+	var correct = true;
+	$('.options button').each(function(){
+		if ($(this).data('checked') == 1){
+			if ($(this).data('correct') == 1){
+				$(this).text('✔');
+				$(this).addClass('correct').removeClass('checked');
+			}else{
+				$(this).text('✘')
+				$(this).addClass('incorrect').removeClass('checked');
+				correct = false;
+			}
+		}else{
+			if ($(this).data('correct') == 1){
+				$(this).addClass('correct');
+				correct = false;
+			}
+		}
+	});
+	return correct;
+}
 function isCorrect(){
 	var correct = true;
 	$('.options').find('.checkbox button').each(function(){
@@ -101,16 +117,11 @@ function loadUserData(number){
 			$(this).addClass('disabled');
 			if (answer[i] == 1){
 				$(this).find('button').data('checked', 1);
-				$(this).find('button').addClass('checked');
 			}else{
 				$(this).find('button').data('checked', 0);
 			}
 		})
-		if (isCorrect()){
-			$('.options .checked').addClass('correct').removeClass('checked');
-		}else{
-			$('.options .checked').addClass('incorrect').removeClass('checked');
-		}
+		showCorrection();
 		$('.answer').removeClass('hidden');
 	}else{
 		$('.answer').addClass('hidden');
