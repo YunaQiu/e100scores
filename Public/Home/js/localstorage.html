@@ -99,6 +99,14 @@ function UserStorage(alias){
 
 function BankStorage(name){
 	this.name = name;
+	function isExist(){
+		var result = LocalStorage.isExist(name);
+		return result;
+	}
+	function getStorage(){
+		var bankData = LocalStorage.get(name);
+		return bankData;
+	}
 	function download(){
 		$.post('{:U("Practice/loadBank")}', {bank: this.name}, function(result){
 			if (result.status == 0){
@@ -107,17 +115,17 @@ function BankStorage(name){
 		}, 'json');
 	}
 	function getSingleRecord(number){
-		var userData = LocalStorage.get(this.name);
-		if (userData.length >= number){
-			return userData[number-1];
+		var bankData = LocalStorage.get(this.name);
+		if (bankData.length >= number){
+			return bankData[number-1];
 		}else{
 			return false;
 		}
 	}
 
-	this.isExist = LocalStorage.isExist;
+	this.isExist = isExist;
 	this.load = download;
-	this.getAll = LocalStorage.get;
+	this.getAll = getStorage;
 	this.get = getSingleRecord;
 };
 </script>
