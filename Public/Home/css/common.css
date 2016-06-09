@@ -1,7 +1,7 @@
 html,body{
 	margin: 0px;
 	padding: 0px;
-	font-family: Arial, 微软雅黑;
+	font-family: Arial, 微软雅黑, sans-serif;
 }
 template{
 	display: none;
@@ -105,9 +105,6 @@ ul,li{
 .border-yellow{
 	border-color: #ffd966;
 }
-@font-face {
-    font-family: '微软雅黑';
-    src: url('../font/msyh.ttf') format('truetype');
-    font-weight: normal;
-    font-size: normal;
+.gray{
+	color: #c9c9c9;
 }
