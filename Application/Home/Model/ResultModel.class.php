@@ -43,5 +43,11 @@ class ResultModel extends Model{
 			return false;
 		}
 	}
+
+	public function deleteRecord($userId, $bankId){
+		$Result = M('Result');
+		$result = $Result->where("user_id='%s' AND bank_id='%d'", $userId, $bankId)->delete();
+		return $result;
+	}
 }
 ?>

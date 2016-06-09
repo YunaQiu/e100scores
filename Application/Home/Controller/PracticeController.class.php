@@ -42,6 +42,23 @@ class PracticeController extends HomeCommonController {
 		$this->display();
 	}
 
+	public function result(){
+		$bankAlias = I('get.bank', '', ALIAS_FORMAT);
+		$QuestionBank = D('QuestionBank');
+		$bankId = $QuestionBank->getBankId($bankAlias);
+		if ($bankId == null){
+			$this->error('未找到该题库');
+		}
+		$bankInfo = $QuestionBank->getBankInfo($bankId);
+		$courseId = $bankInfo['course_id'];
+		$Course = D('Course');
+		$courseInfo = $Course->getCourseInfo($courseId);
+		$data['bank_alias'] = $bankAlias;
+		$data['course_alias'] = $courseInfo['alias'];
+		$this->assign($data);
+		$this->display();		
+	}
+
 	private function getLatestNum($userId, $bankId, $number){		
 		$Result = D('Result');
 		$answer = $Result->getRecordBySearch($userId, $bankId);
@@ -103,6 +120,32 @@ class PracticeController extends HomeCommonController {
 		$data['status'] = 0;
 		$data['data'] = $userData['answer'];
 		$this->ajaxReturn($data);
+	}
+
+	public function clearUserData(){
+		$bankAlias = I('post.bank', '', ALIAS_FORMAT);
+		if ($bankAlias == ''){
+			$data['status'] = 1;
+			$this->ajaxReturn($data);
+			exit;
+		}
+		$QuestionBank = D('QuestionBank');
+		$bankId = $QuestionBank->getBankId($bankAlias);
+		if ($bankId == null){
+			$data['status'] = 2;
+			$this->ajaxReturn($data);
+			exit;
+		}
+		$userId = session('userid');
+		$Result = D('Result');
+		$result = $Result->deleteRecord($userId, $bankId);
+		if ($result !== false){
+			$data['status'] = 0;
+			$this->ajaxReturn($data);
+		}else{
+			$data['status'] = 3;
+			$this->ajaxReturn($data);
+		}
 	}
 
 	public function loadBank(){

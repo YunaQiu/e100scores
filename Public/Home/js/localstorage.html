@@ -92,6 +92,15 @@ function UserStorage(alias){
 			}
 		}, 'json');
 	}
+	function clearData(fun){
+		$.post('{:U("Practice/clearUserData")}', {bank: alias},function(data){
+			storage.removeItem(name);
+			console.log(data);
+			if (typeof(fun) == "function"){
+				fun();				
+			}
+		});
+	}
 
 	this.isExist = isExist;
 	this.getAll = getStorage;
@@ -100,6 +109,7 @@ function UserStorage(alias){
 	this.set = setSingleRecord;
 	this.upload = uploadCloud;
 	this.download = downloadData;
+	this.clear = clearData;
 }
 
 function BankStorage(name){

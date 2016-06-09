@@ -1,0 +1,175 @@
+<extend name="Public:base" />
+<block name="title">易百分—{$bank}</block>
+<block name="otherjs">
+	<script src="__ROOT__/Public/Common/radialIndicator.min.js"></script>
+	<include file="./Public/Home/js/localstorage.html" />
+	<script type="text/javascript">
+	var radialObj;
+	var bank = '{$bank_alias}';
+	var bankStorage = new BankStorage(bank);
+	var userStorage = new UserStorage(bank);
+	var percentage = 0;
+
+	userStorage.upload();
+	$(function(){
+		$('#resultChart').radialIndicator({
+			percentage : false,
+			displayNumber: false,
+			radius: 95,
+			barWidth: 2,
+			barColor: '#ffd966',
+			barBgColor: '#fff',
+			minValue: 0,
+			maxValue: 100
+		});
+		radialObj = $('#resultChart').data('radialIndicator');
+		bankStorage.load(function(result){
+			if (result == 0){
+				QuModal.init({
+					bank: bank
+				});
+				var total = bankStorage.getAll().length;
+				var correct = 0;
+				for (var i=0; i<userStorage.getAll().length; i++){
+					if (isCorrect(i+1)){
+						correct += 1;
+					}
+				}
+				percentage = parseInt(correct * 100 / total);
+				
+				radialObj.value(percentage);
+				$('.chart-number').html(percentage + '<span class="chart-pct yellow">%</span>');
+				$('.chart-content').removeClass('invisible');
+
+				if (percentage >= 60){
+					$('.emotion').attr('src', '__IMG__/good.png');
+					$('.comment').text('恭喜，你已击败世界上50%的学霸!!!');
+				}else if (percentage >= 40){
+					$('.emotion').attr('src', '__IMG__/average.png');
+					$('.comment').text('恭喜，你已击败世界上50%的学渣...');
+				}else{
+					$('.emotion').attr('src', '__IMG__/poor.png');
+					$('.comment').text('恭喜，你已成为学渣中的战斗机...');					
+				}
+				$('.emotion').removeClass('invisible');
+			}
+		});
+
+		$('#reset').click(function(event) {
+			if (confirm('学霸，确定要重刷一遍题吗？')){
+				userStorage.clear(function(){
+					location.href = "{:U('Practice/index', array('bank'=>$bank_alias))}";
+				})
+			}
+		});
+		$('#return').click(function(event) {
+			location.href = "{:U('Index/bankList', array('course'=>$course_alias))}";
+		});
+	})
+	function isCorrect(num){
+		var opData = bankStorage.get(num).options;
+		var userData = userStorage.get(num);
+		if (!userData){
+			return null;
+		}
+		for (var i=0; i < opData.length; i++){
+			if (userData[i] != opData[i].correct){
+				return false;
+			}
+		}
+		return true;
+	}
+	</script>
+</block>
+<block name="othercss">
+	<style type="text/css">
+	*{
+		font-size: 1.7rem;
+		text-align: center;
+	}
+	h1{
+		font-size: 1.7rem;
+	}
+	.chart{
+		position: relative;
+		display: flex;
+		margin: 10% auto 0 auto;
+		border: 1px solid #ccc;
+		width: 200px;
+		height: 200px;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+	}
+	.chart-content{
+		position: absolute;
+		display: flex;
+		width: 80%;
+		height: 80%;
+		top: 10%;
+		left: 10%;
+		text-align: center;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.chart-title{
+		position: relative;
+		top: 10px;
+		width: 100%;
+		text-align: center;
+	}
+	.chart-number{
+		font-size: 8rem;
+		width: 100%;
+		text-align: center;
+	}
+	.chart-pct{
+		position: absolute;
+		bottom: 30%;
+		font-size: 2rem;
+	}
+	.chart-menu{
+		position: relative;
+		height: 17%;
+		bottom: 5px;
+	}
+	.emotion{
+		display: block;
+		height: 60px;
+		margin: 40px auto 10px auto;
+	}
+	.btn-bar{
+		position: absolute;
+		bottom: 20%;
+		width: 100%;
+		text-align: center;
+	}
+	.btn-bar button{
+		width: 90px;
+		margin-right: 35px;
+		font-size: 1.4rem;
+		border-radius: 6px;
+	}
+	.btn-bar button:last-child{
+		margin-right: 0px;
+	}
+	</style>
+</block>
+<block name="main">
+	<div id="resultChart" class="chart">
+		<div class="chart-content invisible">
+			<div class="chart-title gray">正确率</div>
+			<div class="chart-number yellow">0<span class="chart-pct yellow">%</span>
+			</div>
+			<img class="chart-menu" src="__IMG__/menu.png" data-toggle="modal" data-target="#questionListModal">
+		</div>
+	</div>
+	<img src="" class="emotion invisible">
+	<h1 class="gray comment">正在计算中。。。</h1>
+	<div class="btn-bar">			
+		<button id="reset" class="btn btn-sm yellow bg-white border-yellow">再刷一遍</button>
+		<button id="return" class="btn btn-sm white bg-yellow border-yellow">返回题库</button>
+	</div>
+	<include file="Public/questionsListModal" />
+</block>
