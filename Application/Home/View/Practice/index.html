@@ -11,6 +11,7 @@
 	var total = {$amount};
 	var bankStorage = new BankStorage(bank);
 	var userStorage = new UserStorage(bank);
+	var resultUrl = "{:U('Practice/result', array('bank'=>$bank_alias))}";
 	bankStorage.load(function(result){
 		if (result == 0){
 			QuModal.init({

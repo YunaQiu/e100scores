@@ -33,7 +33,7 @@ $(function(){
 			if (result && number <= total){
 				setTimeout(function(){
 					if (number == total){
-						location.href = "{:U('Practice/result', array('bank'=>$bank_alias))}";
+						location.href = resultUrl;
 					}else{						
 						number += 1;
 						loadQuestion(number);
@@ -47,7 +47,7 @@ $(function(){
 			loadQuestion(number);
 		}else{
 			userStorage.upload();
-			location.href = "{:U('Practice/result', array('bank'=>$bank_alias))}";
+			location.href = resultUrl;
 		}
 	});	
 });
