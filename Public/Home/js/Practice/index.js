@@ -45,7 +45,13 @@ $(function(){
 	});	
 });
 function jumpToPage(num){
-	if (num > userStorage.getAll().length+1){
+	var userData = userStorage.getAll();
+	if (!userData){
+		length = 0;
+	}else{
+		length = userData.length;
+	}
+	if (num > length+1){
 		alert('对不起，不可以跳题哦');
 		return false;
 	}else{

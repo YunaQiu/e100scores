@@ -23,7 +23,7 @@ class PracticeController extends HomeCommonController {
 			$data = $Question->getQuestionInfoByNum($bankId, $number);
 			$data['latest'] = 0;
 		}else{
-			$number = $this->getLatestNum();
+			$number = $this->getLatestNum($userId, $bankId);
 			if ($number < $bankInfo['amount']){
 				$number += 1;
 			}
@@ -59,7 +59,7 @@ class PracticeController extends HomeCommonController {
 		$this->display();		
 	}
 
-	private function getLatestNum($userId, $bankId, $number){		
+	private function getLatestNum($userId, $bankId){		
 		$Result = D('Result');
 		$answer = $Result->getRecordBySearch($userId, $bankId);
 		if ($answer == null){

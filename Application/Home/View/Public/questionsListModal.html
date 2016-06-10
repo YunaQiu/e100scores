@@ -90,7 +90,12 @@ var QuModal = (function(){
 				btnClick(page);
 				return;
 			}
-			var progress = userStorage.getAll().length;
+			var userData = userStorage.getAll();
+			if (!userData){
+				progress = 0;
+			}else{
+				progress = userData.length;
+			}
 			if (page <= progress+1){
 				location.href = "{:U('Practice/index')}/bank/" + bank + '/num/' + page;				
 			}else{
