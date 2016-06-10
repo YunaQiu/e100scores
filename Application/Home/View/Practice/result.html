@@ -90,15 +90,15 @@
 		$('.chart-number').html(percentage + '<span class="chart-pct yellow">%</span>');
 		$('.chart-content').removeClass('invisible');
 
-		if (percentage >= 60){
+		if (percentage >= 80){
 			$('.emotion').attr('src', '__IMG__/good.png');
 			$('.comment').text('恭喜，你已击败世界上50%的学霸!!!');
-		}else if (percentage >= 40){
+		}else if (percentage >= 60){
 			$('.emotion').attr('src', '__IMG__/average.png');
 			$('.comment').text('恭喜，你已击败世界上50%的学渣...');
 		}else{
 			$('.emotion').attr('src', '__IMG__/poor.png');
-			$('.comment').text('恭喜，你已成为学渣中的战斗机...');					
+			$('.comment').text('恭喜，你已成为学渣中的战斗机...');		
 		}
 		$('.emotion').removeClass('invisible');
 	}

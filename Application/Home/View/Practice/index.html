@@ -83,7 +83,11 @@
 		</ul>
 		<div class="btn-bar">			
 			<button id="pre" class="btn btn-sm yellow bg-white border-yellow">上一题</button>
-			<button id="next" class="btn btn-sm white bg-yellow border-yellow">下一题</button>
+			<eq name="number" value="$amount">
+				<button id="next" class="btn btn-sm white bg-yellow border-yellow">提交</button>
+			<else/>
+				<button id="next" class="btn btn-sm white bg-yellow border-yellow">下一题</button>
+			</eq>
 		</div>
 	</div>
 	<present name="answer">

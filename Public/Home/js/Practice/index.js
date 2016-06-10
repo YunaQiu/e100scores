@@ -120,6 +120,9 @@ function loadQuestion(number){
 		$('.answer').find('.analysis').html(question.analysis);		
 		$('.analysis').parent('p').removeClass('hidden');	
 	}
+	if (number == total){
+		$('#next').text('提交');
+	}
 	$('.content').removeClass('hidden');
 	loadUserData(number);
 }
