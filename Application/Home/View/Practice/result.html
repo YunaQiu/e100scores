@@ -6,11 +6,28 @@
 	<script type="text/javascript">
 	var radialObj;
 	var bank = '{$bank_alias}';
+	var total = {$amount};
 	var bankStorage = new BankStorage(bank);
 	var userStorage = new UserStorage(bank);
 	var percentage = 0;
+	var userDataReady = false;
+	var bankDataReady = false;
 
-	userStorage.upload();
+	if (userStorage.isExist()){
+		userStorage.upload();
+		var length = userStorage.getAll().length;
+		if (length < total){
+			location.href = "{:U('Practice/index', array('bank'=>$bank_alias))}/num/" + (length+1);
+		}
+		userDataReady = true;
+	}else{
+		userStorage.download(function(){
+			userDataReady = true;
+			if (bankDataReady){
+				showResult();
+			}
+		});
+	}
 	$(function(){
 		$('#resultChart').radialIndicator({
 			percentage : false,
@@ -25,33 +42,13 @@
 		radialObj = $('#resultChart').data('radialIndicator');
 		bankStorage.load(function(result){
 			if (result == 0){
+				bankDataReady = true;
 				QuModal.init({
 					bank: bank
 				});
-				var total = bankStorage.getAll().length;
-				var correct = 0;
-				for (var i=0; i<userStorage.getAll().length; i++){
-					if (isCorrect(i+1)){
-						correct += 1;
-					}
+				if (userDataReady){
+					showResult();
 				}
-				percentage = parseInt(correct * 100 / total);
-				
-				radialObj.value(percentage);
-				$('.chart-number').html(percentage + '<span class="chart-pct yellow">%</span>');
-				$('.chart-content').removeClass('invisible');
-
-				if (percentage >= 60){
-					$('.emotion').attr('src', '__IMG__/good.png');
-					$('.comment').text('恭喜，你已击败世界上50%的学霸!!!');
-				}else if (percentage >= 40){
-					$('.emotion').attr('src', '__IMG__/average.png');
-					$('.comment').text('恭喜，你已击败世界上50%的学渣...');
-				}else{
-					$('.emotion').attr('src', '__IMG__/poor.png');
-					$('.comment').text('恭喜，你已成为学渣中的战斗机...');					
-				}
-				$('.emotion').removeClass('invisible');
 			}
 		});
 
@@ -78,6 +75,32 @@
 			}
 		}
 		return true;
+	}
+	function showResult(){
+		var total = bankStorage.getAll().length;
+		var correct = 0;
+		for (var i=0; i<userStorage.getAll().length; i++){
+			if (isCorrect(i+1)){
+				correct += 1;
+			}
+		}
+		percentage = parseInt(correct * 100 / total);
+		
+		radialObj.value(percentage);
+		$('.chart-number').html(percentage + '<span class="chart-pct yellow">%</span>');
+		$('.chart-content').removeClass('invisible');
+
+		if (percentage >= 60){
+			$('.emotion').attr('src', '__IMG__/good.png');
+			$('.comment').text('恭喜，你已击败世界上50%的学霸!!!');
+		}else if (percentage >= 40){
+			$('.emotion').attr('src', '__IMG__/average.png');
+			$('.comment').text('恭喜，你已击败世界上50%的学渣...');
+		}else{
+			$('.emotion').attr('src', '__IMG__/poor.png');
+			$('.comment').text('恭喜，你已成为学渣中的战斗机...');					
+		}
+		$('.emotion').removeClass('invisible');
 	}
 	</script>
 </block>

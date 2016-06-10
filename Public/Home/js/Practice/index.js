@@ -30,10 +30,14 @@ $(function(){
 			});
 			userStorage.set(number, userData);
 			var result = showCorrection();
-			if (result && number < total){
+			if (result && number <= total){
 				setTimeout(function(){
-					number += 1;
-					loadQuestion(number);
+					if (number == total){
+						location.href = "{:U('Practice/result', array('bank'=>$bank_alias))}";
+					}else{						
+						number += 1;
+						loadQuestion(number);
+					}
 				}, 400);
 			}else{
 				$('.answer').removeClass('hidden');
@@ -41,6 +45,9 @@ $(function(){
 		}else if (number < total){
 			number += 1;
 			loadQuestion(number);
+		}else{
+			userStorage.upload();
+			location.href = "{:U('Practice/result', array('bank'=>$bank_alias))}";
 		}
 	});	
 });

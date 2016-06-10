@@ -27,8 +27,7 @@
 					number = userData.length+1;
 					loadQuestion(number);
 				}else if (userData.length == total && number != total){
-					number = total;
-					loadQuestion(number);
+					location.href = "{:U('Practice/result', array('bank'=>$bank_alias))}";
 				}else{
 					loadUserData(number);
 				}

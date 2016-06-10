@@ -26,6 +26,8 @@ class PracticeController extends HomeCommonController {
 			$number = $this->getLatestNum($userId, $bankId);
 			if ($number < $bankInfo['amount']){
 				$number += 1;
+			}else{
+				redirect(U('Practice/result', array('bank'=>$bankAlias)));
 			}
 			$data = $Question->getQuestionInfoByNum($bankId, $number);
 			$data['latest'] = 1;
@@ -55,6 +57,7 @@ class PracticeController extends HomeCommonController {
 		$courseInfo = $Course->getCourseInfo($courseId);
 		$data['bank_alias'] = $bankAlias;
 		$data['course_alias'] = $courseInfo['alias'];
+		$data['amount'] = $bankInfo['amount'];
 		$this->assign($data);
 		$this->display();		
 	}
