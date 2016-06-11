@@ -122,6 +122,8 @@ function loadQuestion(number){
 	}
 	if (number == total){
 		$('#next').text('提交');
+	}else{
+		$('#next').text('下一题');
 	}
 	$('.content').removeClass('hidden');
 	loadUserData(number);
