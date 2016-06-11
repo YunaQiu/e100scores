@@ -19,6 +19,15 @@ ul,li{
 	height: 100%;
 	z-index: -1;
 }
+button.img-btn{
+	border: none;
+	padding: 0px;
+	background-color: transparent;
+}
+.img-btn img{
+	max-width: 100%;
+	max-height: 100%;
+}
 .item-case{
 	height: 30px;
 	border: 1px solid #e5e5e5;
@@ -87,6 +96,9 @@ ul,li{
 .white:focus{
 	color: white;
 }
+.white:hover{
+	color: white;
+}
 .bg-white{
 	background-color: white;
 }
@@ -97,6 +109,9 @@ ul,li{
 	color: #ffd966;
 }
 .yellow:focus{
+	color: #ffd966;
+}
+.yellow:hover{
 	color: #ffd966;
 }
 .bg-yellow{

@@ -41,6 +41,7 @@ nav .pull-right{
 	display: -webkit-flex; /* Safari */
 	display: flex;
 	align-items: baseline;
+	font-size: 1.5rem;
 }
 .checkbox button{
 	margin-right: 10px;
@@ -64,5 +65,5 @@ nav .pull-right{
 }
 .answer p{
 	margin-bottom: 10px;
-	font-size: 1rem;
+	font-size: 1.3rem;
 }
