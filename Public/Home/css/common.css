@@ -11,6 +11,12 @@ ul,li{
 	padding: 0px;
 	list-style-type:none;
 }
+#head-logo{
+	position: absolute;
+	display: none;
+	/*top: -100px;*/
+	/*left: -100px;*/
+}
 .uitest{
 	position: absolute;
 	top: 0px;
