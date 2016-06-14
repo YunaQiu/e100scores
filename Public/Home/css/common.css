@@ -11,11 +11,11 @@ ul,li{
 	padding: 0px;
 	list-style-type:none;
 }
-#head-logo{
+#logoShare{
 	position: absolute;
-	display: none;
-	/*top: -100px;*/
-	/*left: -100px;*/
+	display: block;
+	width: 0px;
+	height: 0px;
 }
 .uitest{
 	position: absolute;
