@@ -103,7 +103,21 @@ function loadQuestion(number){
 	var question = bankStorage.get(number);
 	$('.content,.answer').addClass('hidden');
 	$('.number').text(number);
-	$('.title').text(question.title);
+	switch (parseInt(question.type)){
+		case 0:
+			type = '不定项';
+			break;
+		case 1:
+			type = '单选题';
+			break;
+		case 2:
+			type = '多选题';
+			break;
+		default:
+			type = '不定项';
+	}
+	$('#type').text(type);
+	$('#title').text(question.title);
 	$options = $('.options').empty();
 	for (var i=0; i<question.options.length; i++){
 		var option = $('template[name=option]').html();

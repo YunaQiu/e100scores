@@ -71,6 +71,8 @@ class QuestionController extends AdminCommonController
 		$bankInfo = $QuestionBank->getBankInfo($data['bank_id']);
 		$data['bank_alias'] = $bankInfo['alias'];
 		$data['html_title'] = '编辑题目';
+		$type = $data['type'];
+		$data['type_checked'][$type] = 'checked';
 		foreach ($data['options'] as &$value) {
 			if ($value['correct'] == 1){
 				$value['checked'] = 'checked';
@@ -88,6 +90,7 @@ class QuestionController extends AdminCommonController
 		$data['bank_id'] = I('post.bank_id', false, '/^\d+$/');
 		$data['number'] = I('post.number', false, '/^\d+$/');
 		$data['title'] = I('post.title','');
+		$data['type'] = I('post.type', 0, '/^\d+$/');
 		$options = I('post.options/a', false);
 		$keys = I('post.key/a', false);
 		$data['analysis'] = I('post.analysis', '');

@@ -9,6 +9,7 @@ class QuestionModel extends Model
 			array('bank_id', 'number', 'bank_id不是数字'),
 			array('number', 'number', 'number不是数字'),
 			array('title', 'require', 'name不能为空'),
+			array('type', 'number', 'type不是数字'),
 			array('point', 'number', 'point不是数字')
 		);
 

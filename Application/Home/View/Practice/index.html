@@ -66,7 +66,16 @@
 		</div>
 	</nav>
 	<div class="content">
-		<h1 class="title">{$title}</h1>
+		<h1 class="title">
+			<span id="type" class="hollow-label yellow border-yellow">
+			<switch name='type'>
+				<case value='0'>不定项</case>
+				<case value='1'>单选题</case>
+				<case value='2'>多选题</case>
+				<default/>不定项
+			</switch>
+			</span><span id="title">{$title}</span>
+		</h1>
 		<hr class="head-bar"/>
 		<ul class="options">
 			<foreach name="options" item="op" key="k">
