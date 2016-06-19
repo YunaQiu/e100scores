@@ -51,6 +51,7 @@ $(function(){
 		}
 	});	
 });
+/*题目导航框的回调函数*/
 function jumpToPage(num){
 	var userData = userStorage.getAll();
 	if (!userData){
@@ -68,6 +69,7 @@ function jumpToPage(num){
 		return true;		
 	}
 }
+/*判断并显示答案的对错，返回答案是否正确*/
 function showCorrection(){
 	var correct = true;
 	$('.options button').each(function(){
@@ -89,6 +91,7 @@ function showCorrection(){
 	});
 	return correct;
 }
+/*判断答案是否正确，此函数暂弃，用showCorrection取代*/
 function isCorrect(){
 	var correct = true;
 	$('.options').find('.checkbox button').each(function(){
@@ -99,6 +102,7 @@ function isCorrect(){
 	})
 	return correct;
 }
+/*将本地缓存题库中的题目载入到页面中，若有用户答案则同时载入*/
 function loadQuestion(number){
 	var question = bankStorage.get(number);
 	$('.content,.answer').addClass('hidden');
@@ -112,6 +116,9 @@ function loadQuestion(number){
 			break;
 		case 2:
 			type = '多选题';
+			break;
+		case 3:
+			type = '判断题';
 			break;
 		default:
 			type = '不定项';
@@ -142,6 +149,7 @@ function loadQuestion(number){
 	$('.content').removeClass('hidden');
 	loadUserData(number);
 }
+/*载入用户的答案*/
 function loadUserData(number){
 	var answer = userStorage.get(number);
 	if (answer){
