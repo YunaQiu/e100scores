@@ -2,6 +2,9 @@
 <block name="title">{$course}-题库选择</block>
 <block name="othercss">
 	<style type="text/css">
+	html,body{
+		height: 100%;
+	}
 	.banner{
 		width: 100%;
 		margin: 10px 0 10px 0;
@@ -29,6 +32,15 @@
 		font-size: 1rem;
 		margin-right: 5px;
 		flex-shrink: 0;
+	}
+	footer{
+		position: relative;
+		margin-top: 20px;
+		bottom: 10px;
+		width: 100%;
+		text-align: center;
+		font-size: 1.2rem;
+		color: #999999;
 	}
 	</style>
 </block>
@@ -73,5 +85,8 @@
 				</div>
 			</li>
 		</foreach>
+		<footer>
+			—更多资源，请关注公众号“华工小易”—
+		</footer>
 	</ul>
 </block>
