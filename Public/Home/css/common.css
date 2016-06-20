@@ -40,7 +40,7 @@ button.img-btn{
 	margin-bottom: .2em;
 	padding: .2em .4em .2em;
 	text-align: center;
-	vertical-align: baseline;
+	vertical-align: middle;
 	font-size: .75em;
 	line-height: 1;
 	white-space: nowrap;
