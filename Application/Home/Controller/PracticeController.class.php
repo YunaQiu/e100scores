@@ -4,7 +4,7 @@ use Think\Controller;
 class PracticeController extends HomeCommonController {
 	public function index(){
 		$bankAlias = I('get.bank', '', ALIAS_FORMAT);
-		$number = I('get.num', 0, '/^\d$/');
+		$number = I('get.num', 0, '/^\d+$/');
 		$QuestionBank = D('QuestionBank');
 		$userId = session('userid');
 		$Question = D('Question');
