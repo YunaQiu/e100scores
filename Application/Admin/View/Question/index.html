@@ -16,6 +16,7 @@
                 <tr class="info">
                     <th>题号</th>
                     <th>题干</th>
+                    <th>类型</th>
                     <th>答案</th>
                     <th>编辑</th>
                     <th>删除</th>
@@ -29,6 +30,15 @@
 	            	<tr>
                         <td>{$vo.number}</td>
                         <td>{$vo.title}</td>
+                        <td>
+                            <switch name='vo.type'>
+                                <case value='0'>不定项</case>
+                                <case value='1'>单选题</case>
+                                <case value='2'>多选题</case>
+                                <case value='3'>判断题</case>
+                                <default/>未定义
+                            </switch>                            
+                        </td>
                         <td>{$vo.key}</td>
                         <td><a href="{:U('Question/edit', array('id'=>$vo['id']))}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
                         <td>
