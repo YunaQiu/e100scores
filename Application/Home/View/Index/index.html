@@ -12,17 +12,27 @@
 		margin: 15px;
 	}
 	ul{
+		width: 70%;
+		display: -webkit-flex; /* Safari */
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		align-items: center;
+		align-content: space-around;
 		padding: 0px;
 		margin-top: 10%;
+		margin: 15% auto 0 auto;
 	}
 	li{
-		display: block;
-		margin: 8% auto 0 auto;
+		/*display: block;*/
+		flex-grow: 0;
+		flex-basis: 80%;
+		margin: 5% auto 0 auto;
 	}
-	li:first-child{
+/*	li:first-child{
 		margin-top:0px;
 	}
-	.logo{
+*/	.logo{
 		position: absolute;
 		right: 20px;
 		top: 10px;
@@ -63,7 +73,7 @@
 </block>
 <block name="main">
 	<img class="logo" src="__ROOT__/Public/Common/logo.png" alt="易百分" />
-	<h1 class="title">科目选择</h1>
+	<!-- <h1 class="title">科目选择</h1> -->
 	<ul class="courseList">
 		<foreach name="course" item="name">
 			<li id="{$key}">
