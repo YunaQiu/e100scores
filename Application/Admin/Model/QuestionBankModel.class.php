@@ -16,6 +16,7 @@ class QuestionBankModel extends Model{
 	public function getBankList($course = NULL){
 		$QuestionBank = M('QuestionBank');
 		$QuestionBank->field('bank.*, course.name as course, course.alias as course_alias')->table('question_bank bank, course');
+		$QuestionBank->order('id desc');
 		if ($course === NULL){
 			$QuestionBank->where('bank.course_id=course.id');
 		}else{

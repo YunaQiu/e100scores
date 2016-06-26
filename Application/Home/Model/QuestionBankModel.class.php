@@ -7,6 +7,7 @@ class QuestionBankModel extends Model{
 		$QuestionBank = M('QuestionBank');
 		$QuestionBank->field('bank.*, course.name as course, course.alias as course_alias')->table('question_bank bank, course');
 		$QuestionBank->where('bank.course_id=course.id AND bank.publish=1 AND course.id="%d"', $course);
+		$QuestionBank->order('id desc');
 		$list = $QuestionBank->select();
 		return $list;
 	}
