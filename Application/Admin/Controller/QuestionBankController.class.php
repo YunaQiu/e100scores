@@ -46,7 +46,6 @@ class QuestionBankController extends AdminCommonController
 		$Course = D('Course');
         $data['title'] = '编辑题库';
         $data['course_list'] = $Course->getCourseList(); 
-        unset($data['course_id'], $data['amount'], $data['course']);
         $this->assign($data);
         $this->display();
 	}
@@ -58,6 +57,7 @@ class QuestionBankController extends AdminCommonController
 		$data['name'] = I('post.name','');
 		$data['alias'] = I('post.alias', false, ALIAS_FORMAT);
 		$course = I('post.course', false, '/^\w+$/');
+		$data['priority'] = I('post.priority', 0, '/^-?\d+$/');
 		if ($data['name']=='' && $data['alias'] && $course){
 			$this->error('格式有误，请重新检查');
 			exit;

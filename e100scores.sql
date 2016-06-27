@@ -64,13 +64,15 @@ CREATE TABLE IF NOT EXISTS `question_bank` (
   `course_id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `priority` int(11) DEFAULT '0',
   `publish` tinyint(1) DEFAULT '0',
   `amount` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias_2` (`alias`),
   KEY `course_id` (`course_id`),
   KEY `course_id_2` (`course_id`),
-  KEY `alias` (`alias`)
+  KEY `alias` (`alias`),
+  KEY `priority` (`priority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
