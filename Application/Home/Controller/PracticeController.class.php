@@ -74,7 +74,8 @@ class PracticeController extends HomeCommonController {
 
 	public function updateUserData(){
 		$bankAlias = I('post.bank', '', ALIAS_FORMAT);
-		$userData = I('post.data', '');
+		$userData = I('post.data', '', '');
+		$updateTime = I('post.time', '');
 		if ($bankAlias == '' || $userData == ''){
 			$this->ajaxReturn('error');
 			exit;
@@ -89,6 +90,9 @@ class PracticeController extends HomeCommonController {
 		$userData = json_decode($userData); 
 		$data['answer'] = $userData;
 		$data['completed'] = sizeof($userData);
+		if ($updateTime != ''){
+			$data['update_time'] = $updateTime;
+		}
 		$Result = D('Result');
 		$result = $Result->saveRecord($userId, $bankId, $data);
 		if ($result){
@@ -122,6 +126,7 @@ class PracticeController extends HomeCommonController {
 		}
 		$data['status'] = 0;
 		$data['data'] = $userData['answer'];
+		$data['time'] = $userData['update_time'];
 		$this->ajaxReturn($data);
 	}
 

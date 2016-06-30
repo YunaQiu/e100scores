@@ -31,7 +31,9 @@ class ResultModel extends Model{
 			$data['id'] = $record['id'];
 		}
 		$data['answer'] = serialize($data['answer']);
-		$data['update_time'] = date("Y-m-d H:i:s");
+		if (!isset($data['update_time'])){
+			$data['update_time'] = date("Y-m-d H:i:s");			
+		}
 		if ($Result->create($data)){
 			if ($record == null){
 				$Result->add();
