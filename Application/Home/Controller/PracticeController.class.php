@@ -35,7 +35,10 @@ class PracticeController extends HomeCommonController {
 		$data['number'] = $number;
 		$record = $Result->getRecordBySearch($userId, $bankId);
 		if ($record != null && sizeof($record) >= $number){
-			$data['answer'] = $record['answer'][$number-1];
+			$data['answer'] = $record['answer'][$number-1]->checked;
+			$data['done'] = 1;
+		}else{
+			$data['done'] = 0;
 		}
 		$data['bank'] = $bankInfo['name'];
 		$data['bank_alias'] = $bankAlias; 
@@ -51,13 +54,19 @@ class PracticeController extends HomeCommonController {
 		if ($bankId == null){
 			$this->error('未找到该题库');
 		}
-		$bankInfo = $QuestionBank->getBankInfo($bankId);
+
+		$userId = session('userid');
+		$Result = D('Result');
+		$userData = $Result->getRecordBySearch($userId, $bankId);	//获取用户答题数据
+		$bankInfo = $QuestionBank->getBankInfo($bankId);	//获取题库信息
 		$courseId = $bankInfo['course_id'];
 		$Course = D('Course');
-		$courseInfo = $Course->getCourseInfo($courseId);
+		$courseInfo = $Course->getCourseInfo($courseId);	//获取科目信息
+
 		$data['bank_alias'] = $bankAlias;
 		$data['course_alias'] = $courseInfo['alias'];
 		$data['amount'] = $bankInfo['amount'];
+		$data['update_time'] = $userData['update_time'];
 		$this->assign($data);
 		$this->display();		
 	}

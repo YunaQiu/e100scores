@@ -31,9 +31,9 @@ class IndexController extends HomeCommonController {
             	$value['progress'] = 0;
             }else{
                 $value['progress'] = $progress['completed'];
+                $value['update_time'] = $progress['update_time'];
             }
 		}
-		// dump($data);
 		$this->assign($data);
 		$this->display();
 	}

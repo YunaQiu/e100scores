@@ -76,10 +76,11 @@ function UserStorage(alias){
 	function theLatest(cmpTime){
 		var userData = LocalStorage.get(name);
 		if (!userData){
-			userData.updateTime = '';
-			console.log(userData.updateTime);
+			var updateTime = '';
+		}else{
+			var updateTime = userData.updateTime;
 		}
-		var diff = timeDiff(userData.updateTime, cmpTime);
+		var diff = timeDiff(updateTime, cmpTime);
 		if (diff > 0){
 			return 'remote';
 		}else if (diff < 0){
