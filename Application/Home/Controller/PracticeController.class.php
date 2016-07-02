@@ -18,7 +18,7 @@ class PracticeController extends HomeCommonController {
 			$this->error('未找到该题库');
 		}
 
-		$bankInfo = $QuestionBank->getBankInfo($bankId);
+		$bankInfo = $QuestionBank->getBankInfo($bankId);	//获取题库信息
 		if ($number > 0 && $number <= $bankInfo['amount']){
 			$data = $Question->getQuestionInfoByNum($bankId, $number);
 			$data['latest'] = 0;
@@ -33,9 +33,10 @@ class PracticeController extends HomeCommonController {
 			$data['latest'] = 1;
 		}
 		$data['number'] = $number;
-		$record = $Result->getRecordBySearch($userId, $bankId);
+		$record = $Result->getRecordBySearch($userId, $bankId);		//获取用户记录
 		if ($record != null && sizeof($record) >= $number){
 			$data['answer'] = $record['answer'][$number-1]->checked;
+			$data['update_time'] = $record['update_time'];
 			$data['done'] = 1;
 		}else{
 			$data['done'] = 0;
