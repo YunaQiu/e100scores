@@ -41,8 +41,8 @@ function timeDiff(beginTime, endTime) {
     var beginTimes = beginTime.substring(0, 10).split('-');
     var endTimes = endTime.substring(0, 10).split('-');
 
-    beginTime = beginTimes[1] + '-' + beginTimes[2] + '-' + beginTimes[0] + ' ' + beginTime.substring(10, 19);
-    endTime = endTimes[1] + '-' + endTimes[2] + '-' + endTimes[0] + ' ' + endTime.substring(10, 19);
+    beginTime = beginTimes[1] + '/' + beginTimes[2] + '/' + beginTimes[0] + ' ' + beginTime.substring(10, 19);
+    endTime = endTimes[1] + '/' + endTimes[2] + '/' + endTimes[0] + ' ' + endTime.substring(10, 19);
 
     var diff = (Date.parse(endTime) - Date.parse(beginTime)) / 1000;
     return diff;
