@@ -130,13 +130,14 @@ function UserStorage(alias){
 		}else{
 			userRecord = userData.record;
 		}
-		if (userRecord.length >= number - 1){
-			userRecord[number-1].checked = obj;
-			setAllRecord(userRecord);
-			return true;
-		}else{
-			return false;
-		}
+		if (userRecord.length < number-1){
+ 			return false;
+		}else if(userRecord.length == number-1){
+			userRecord[number-1] = new Object();
+ 		}
+		userRecord[number-1].checked = obj;
+		setAllRecord(userRecord);
+		return true;
 	}
 	function uploadCloud(fun){
 		var userData = LocalStorage.get(name);
