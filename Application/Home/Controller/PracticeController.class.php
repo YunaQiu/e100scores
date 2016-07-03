@@ -34,12 +34,12 @@ class PracticeController extends HomeCommonController {
 		}
 		$data['number'] = $number;
 		$record = $Result->getRecordBySearch($userId, $bankId);		//获取用户记录
-		if ($record != null && sizeof($record) >= $number){
-			$data['answer'] = $record['answer'][$number-1]->checked;
+		if ($record != null){
 			$data['update_time'] = $record['update_time'];
-			$data['done'] = 1;
-		}else{
-			$data['done'] = 0;
+			if (sizeof($record['answer']) >= $number){
+				$data['answer'] = $record['answer'][$number-1]->checked;
+				$data['done'] = 1;
+			}
 		}
 		$data['bank'] = $bankInfo['name'];
 		$data['bank_alias'] = $bankAlias; 
