@@ -46,6 +46,7 @@ class ResultModel extends Model{
 		}
 	}
 
+	// 删除用户指定题库的答题记录
 	public function deleteRecord($userId, $bankId){
 		$Result = M('Result');
 		$result = $Result->where("user_id='%s' AND bank_id='%d'", $userId, $bankId)->delete();
